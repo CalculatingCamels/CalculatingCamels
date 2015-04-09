@@ -1,0 +1,22 @@
+{
+  "name": "Tread",
+  "version": "1.0.0",
+  "description": "Route tracking and visualization for cyclists",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CalculatingCamels/CalculatingCamels.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CalculatingCamels/CalculatingCamels/issues"
+  },
+  "homepage": "https://github.com/CalculatingCamels/CalculatingCamels",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}
