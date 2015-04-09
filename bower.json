@@ -1,0 +1,14 @@
+{
+  "name": "CalculatingCamels",
+  "version": "1.0.0",
+  "homepage": "https://github.com/CalculatingCamels/CalculatingCamels",
+  "authors": [
+    "Jamie Skinner <skinner520@gmail.com>"
+  ],
+  "description": "Route tracking and visualization for cyclists",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true
+}
