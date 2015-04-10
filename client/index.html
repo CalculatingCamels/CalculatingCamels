@@ -2,7 +2,6 @@
 <html ng-app = "Treadstone">
 <head>
   <title>Treadstone</title>
-  <script src = "bower_components/angular/angular.min.js"></script>
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
@@ -18,11 +17,15 @@
 </div>
 
 <!-- scripts --> 
+<script src = "bower_components/angular/angular.min.js"></script>
 <script src = "bower_components/angular-route/angular-route.min.js"></script>
 <!-- unable to get correct angular ui files when using bower install..... --> 
 <script src = "vendor/angular-ui-bootstrap.js"></script>
 
 <script src = "components/app.js"></script>
 <script src = "components/home/homeController.js"></script>
+<script src="components/Routes/RoutesController.js"></script>
+<script src="components/Route/RouteController.js"></script>
+
 </body>
 </html>
