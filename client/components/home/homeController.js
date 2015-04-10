@@ -31,5 +31,3 @@ angular.module('Treadstone.home', [])
 			console.log(data);
 		})
 	}
-
-})
