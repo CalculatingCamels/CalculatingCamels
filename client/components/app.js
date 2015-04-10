@@ -6,7 +6,7 @@ angular.module("Treadstone" , ['Treadstone.home',
 .config( function ( $routeProvider ){
   $routeProvider
     .when('/', {
-      templateUrl : 'components/homeView.html',
+      templateUrl : 'components/home/homeView.html',
       controller  : 'homeController'
     })
 })// END CONFIG
