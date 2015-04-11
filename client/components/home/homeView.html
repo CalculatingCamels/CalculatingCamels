@@ -1,11 +1,12 @@
 <div class = "cover" >
-  <div class="inner-cover">
+  <div class="inner-cover"> 
+  <!-- puts map in background -->
     <h1 class="cover-heading">Where are you?</h1>
     <p class="lead">Treadstone helps you find a ocal bike route, visualize it, and explore new areas.</p>
     <p class="lead">
       <h3> Where are you?</h3>
-      <form>
-        <input class = "form-control" type = 'text' name = "location" placeholder = "Austin, Tx">
+      <form ng-submit="sendData()">
+        <input ng-model="searchInput"  class="form-control" type ='text' name ="location" placeholder ="Austin, Tx">
       </form>
     </p>
     <div class="mastfoot">
