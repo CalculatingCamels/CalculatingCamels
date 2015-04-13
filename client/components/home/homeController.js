@@ -9,9 +9,6 @@ angular.module('Treadstone.home', [])
 		$location.path('/search/' + $scope.searchInput + '/25'); //Default distance for now.
 	}
 
-
-
-
 	//Gets LAT & LON coordinates
 	if (navigator.geolocation) {
 	  console.log('Geolocation is supported!');
@@ -31,3 +28,4 @@ angular.module('Treadstone.home', [])
 			console.log(data);
 		})
 	}
+});
