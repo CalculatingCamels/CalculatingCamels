@@ -2,21 +2,32 @@
 <html ng-app = "Treadstone">
 <head>
   <title>Treadstone</title>
-  <script src = "../bower_components/angular/angular.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap-css/css/bootstrap.min.css">
-
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
-<div ng-view></div> 
-<p>A thing</p>
-
+<div class = 'wrapper'> 
+  <div class = "header clearfix">
+    <div class = "brand clearfix">
+      <img class = "logo" src = "styles/treadstone-logo-small.png">
+      <h1 class="masthead-brand">TreadStone</h1>
+    </div>
+  </div>
+  <div ng-view></div> 
+</div>
 
 <!-- scripts --> 
-<script src = "../bower_components/angular-route/angular-route.min.js"></script>
+<script src = "bower_components/angular/angular.min.js"></script>
+<script src = "bower_components/angular-route/angular-route.min.js"></script>
+<script type="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <!-- unable to get correct angular ui files when using bower install..... --> 
 <script src = "vendor/angular-ui-bootstrap.js"></script>
 
-<script src = "./components/app.js"></script>
-<script src = "./components/homeController.js"></script>
+<script src = "components/app.js"></script>
+<script src = "components/home/homeController.js"></script>
+<script src="components/Routes/RoutesController.js"></script>
+<script src="components/Route/RouteController.js"></script>
+<script src="components/addRoute/addRouteController.js"></script>
+
 </body>
 </html>
