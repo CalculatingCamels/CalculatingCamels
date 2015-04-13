@@ -2,6 +2,7 @@ angular.module('Treadstone.home', [])
 
 .controller('homeController', function ($scope, $location, $http){
 	//TODO
+	$scope.city = "Enter Location"
 	$scope.sendData = function(){
 		//DO STUFF WITH INPUT DATA;
 		//WHEN CITY IS ENTERED FIND FIND LAT AND LONG ON GOOGLE MAPS
@@ -25,7 +26,8 @@ angular.module('Treadstone.home', [])
 			method: 'GET',
 			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
 		}).then(function(data){
-			console.log(data);
+			var city = data.data.results[5].formatted_address;
+			$scope.city = city;
 		})
 	}
 
