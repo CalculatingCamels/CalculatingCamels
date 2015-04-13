@@ -16,13 +16,13 @@ angular.module("Treadstone" , ['Treadstone.home',
       templateUrl : 'components/Routes/routesView.html',
       controller : 'routesController' 
     })
+    .when('/route/add', {
+      templateUrl: 'components/addRoute/addRouteView.html',
+      controller: 'addRouteController'
+    })
     .when('/route/:route_id', {
       templateUrl: 'components/Route/routeView.html',
       controller: 'routeController'
-    })
-    .when('/route/add', {
-      templateUrl: 'components/addRouteView/addRouteView.html',
-      controller: 'addRouteController'
     })
 })// END CONFIG
 
