@@ -1,4 +1,4 @@
-angular.module('Treadstone.addRoute', []);
+angular.module('Treadstone.addRoute', [])
 
 .controller('addRouteController', function($scope) {
   

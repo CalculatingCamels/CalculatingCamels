@@ -1,6 +1,7 @@
 angular.module("Treadstone" , ['Treadstone.home',
                                'Treadstone.routes',
                                'Treadstone.route',
+                               'Treadstone.addRoute',
                                'ui.bootstrap',
                                'ngRoute'
                               ])
@@ -20,8 +21,8 @@ angular.module("Treadstone" , ['Treadstone.home',
       controller: 'routeController'
     })
     .when('/route/add', {
-      templateUrl: 'components/routeAddView.html',
-      controller: 'routeController'
+      templateUrl: 'components/addRouteView/addRouteView.html',
+      controller: 'addRouteController'
     })
 })// END CONFIG
 

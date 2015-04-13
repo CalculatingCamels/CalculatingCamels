@@ -28,4 +28,17 @@ angular.module('Treadstone.home', [])
 			console.log(data);
 		})
 	}
+
+	// function renderMap(lat, lon){
+	// 	var map;
+
+	// 	function  initialize(){
+	// 		var mapOptions = {
+	// 			zoom: 8,
+	// 			center: new google.maps.LatLng(lat, lon),
+	// 		}
+	// 		map = new 
+	// 	}
+
+	// }
 });
