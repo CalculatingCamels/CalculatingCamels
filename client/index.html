@@ -9,17 +9,27 @@
 <div class = 'wrapper'> 
   <div class = "header clearfix">
     <div class = "brand clearfix">
+    <a href='/'>
       <img class = "logo" src = "styles/treadstone-logo-small.png">
       <h1 class="masthead-brand">TreadStone</h1>
+    </a>
+    </div>
+    <div class='navigation'>
+      <ul>
+        <li></li>
+        <li><a href='#/route/add'>Add a Route</a></li>
+      </ul>
     </div>
   </div>
-  <div ng-view></div> 
+  <div ng-view>
+    <!-- Different Views will populate this div element depending on the route that is requested -->
+  </div> 
 </div>
 
 <!-- scripts --> 
 <script src = "bower_components/angular/angular.min.js"></script>
 <script src = "bower_components/angular-route/angular-route.min.js"></script>
-<script type="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script src = "https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <!-- unable to get correct angular ui files when using bower install..... --> 
 <script src = "vendor/angular-ui-bootstrap.js"></script>
 
