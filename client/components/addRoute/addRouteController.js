@@ -22,12 +22,10 @@ angular.module('Treadstone.addRoute', [])
 
 		var centerPoint = new google.maps.LatLng(30.30, -97.75);
 
-		// function initialize() {
-
 		  var mapOptions = {
 		    zoom: 12,
 		    center: centerPoint,
-		    disableDefaultUI: true
+		    disableDefaultUI: false
 		  };
 
 		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -39,7 +37,7 @@ angular.module('Treadstone.addRoute', [])
 		  });
 
 		  calcRoute();
-		// }
+		
 
 		function calcRoute() {
 
