@@ -27,7 +27,7 @@ angular.module('Treadstone.home', [])
 	$scope.renderMap = function(position){
 		console.log("Map rendering");
 		var mapOptions = {
-			zoom: 18,
+			zoom: 14,
 			center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
 			disableDefaultUI: true
 		}
