@@ -17,13 +17,14 @@ angular.module('Treadstone.home', [])
 	  navigator.geolocation.getCurrentPosition(function(position){
 		$scope.currentPosition = position;
 		getCity(position);
-		renderMap(position);
+		$scope.renderMap(position);
 	  })
 	} else {
 	  console.log('Geolocation is not supported on this browser');
 	}
 
-	function renderMap(position){
+	$scope.renderMap = function(position){
+		console.log("Map rendering");
 		var mapOptions = {
 			zoom: 18,
 			center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
