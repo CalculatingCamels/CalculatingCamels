@@ -43,21 +43,5 @@ angular.module('Treadstone.home', [])
 		})
 	}
 })
-// .directive('googleMaps', function (){
-// 	// return function(){
-// 	// 	if (navigator.geolocation) {
-// 	// 	  console.log('Geolocation is supported!');
-// 	// 	  navigator.geolocation.getCurrentPosition(function(position){
-// 	// 			console.log("Inside Maps Directive");
-// 	// 			var mapOptions = {
-// 	// 				zoom: 15,
-// 	// 				center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-// 	// 				disableDefaultUI: true
-// 	// 			}
-// 	// 			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-// 	// 	  });
-// 	// 	} else {
-// 	// 	  console.log('Geolocation is not supported on this browser');
-// 	// 	}
-// 	// }
-// })
+
+
