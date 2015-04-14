@@ -7,7 +7,7 @@ var session = require('express-session')
 var app = express();
 
 app.use(bodyParser.json());
-app.use(express.static('../client'));
+app.use(express.static('./client'));
 
 var client = new pg.Client({
     user: "bjoadkdzfmmdeo",
