@@ -2,6 +2,7 @@ angular.module('Treadstone.home', [])
 
 .controller('homeController', function ($scope, $location, $http){
 	//TODO
+	$scope.map;
 	$scope.city = "Enter Location"
 	$scope.sendData = function(){
 		//DO STUFF WITH INPUT DATA;
@@ -16,9 +17,19 @@ angular.module('Treadstone.home', [])
 	  navigator.geolocation.getCurrentPosition(function(position){
 		$scope.currentPosition = position;
 		getCity(position);
+		renderMap(position);
 	  })
 	} else {
 	  console.log('Geolocation is not supported on this browser');
+	}
+
+	function renderMap(position){
+		var mapOptions = {
+			zoom: 18,
+			center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+			disableDefaultUI: true
+		}
+		var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	}
 
 	function getCity(position){
@@ -30,17 +41,22 @@ angular.module('Treadstone.home', [])
 			$scope.city = city;
 		})
 	}
-
-	// function renderMap(lat, lon){
-	// 	var map;
-
-	// 	function  initialize(){
-	// 		var mapOptions = {
-	// 			zoom: 8,
-	// 			center: new google.maps.LatLng(lat, lon),
-	// 		}
-	// 		map = new 
-	// 	}
-
-	// }
-});
+})
+// .directive('googleMaps', function (){
+// 	// return function(){
+// 	// 	if (navigator.geolocation) {
+// 	// 	  console.log('Geolocation is supported!');
+// 	// 	  navigator.geolocation.getCurrentPosition(function(position){
+// 	// 			console.log("Inside Maps Directive");
+// 	// 			var mapOptions = {
+// 	// 				zoom: 15,
+// 	// 				center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+// 	// 				disableDefaultUI: true
+// 	// 			}
+// 	// 			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+// 	// 	  });
+// 	// 	} else {
+// 	// 	  console.log('Geolocation is not supported on this browser');
+// 	// 	}
+// 	// }
+// })
