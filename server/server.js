@@ -96,14 +96,15 @@ app.post('/api/signin', function(req, res){
   //req.body.username
   //req.body.password
   //req.body.redirect
-
+  console.log(req.body)
   if(req.session.loggedIn){
     //already logged in
     res.json({'valid': true})
   } else {
-    client.query('SELECT * FROM `users` WHERE username = ? LIMIT 1', [req.body.username], function(err, result){
+    client.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [req.body.username], function(err, result){
+      console.log(result)
       if(err) return console.log(err);
-      if(result.rows[0].username === req.body.username && helpers.checkPassword(req.body.password, result.rows[0].password)){
+      if(result.rows.length > 0 && result.rows[0].username === req.body.username && helpers.checkPassword(req.body.password, result.rows[0].password)){
         req.session.loggedIn = true;
         res.status(200).json({'valid': true});
       } else {
@@ -117,10 +118,10 @@ app.post('/api/signin', function(req, res){
 app.post('/api/signup', function(req, res){
   //check if username is already existing
   //hash password and store it
-  client.query('SELECT * FROM `users` WHERE username = ? LIMIT 1', [req.body.username], function(err, result){
+  client.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [req.body.username], function(err, result){
     if(err) return console.log(err);
     if(result.rows.length > 0){
-      client.query('INSERT INTO `users` (username, password) VALUES (?,?)', [req.body.username, helpers.hashPassword(req.body.password)], function(err, result){
+      client.query('INSERT INTO users (username, password) VALUES (?,?)', [req.body.username, helpers.hashPassword(req.body.password)], function(err, result){
         if(err) return console.log(err);
         req.session.loggedIn = true;
         res.status(200).json({'valid': true});
