@@ -1,5 +1,5 @@
 body{
-  background-color : #F9B40C;
+  background-color : #27ae60;
 }
 .wrapper{
   margin: auto;
@@ -9,23 +9,47 @@ body{
 .header{
   width:970px;
   margin:auto;
-
 }
+
 .logo{
   float:left;
   margin: 3px;
 }
+
 .masthead-brand{
+  font-size: 55px;
   float: left;
 }
 .cover{
   color: black;
   width:100%;
   height:500px;
-  /*background-image: url("bike-bg.jpg");*/
+  z-index: 1;
+  background: rgba(121, 119, 114, .6);
 }
 .inner-cover{
   width:970px;
-  margin:auto;
+  margin: auto;
   text-align: center;
+  z-index: 1;
 }
+
+#map-canvas {
+  position: absolute;
+  width:100%;
+  height: 500px;
+  z-index: -1;
+}
+
+.center {
+  position: relative;
+  top: 150px;
+  margin: auto;
+}
+
+.form-control {
+  margin: 0 auto;
+  width: 350px;
+  height: 50px;
+}
+
