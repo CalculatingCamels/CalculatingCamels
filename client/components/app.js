@@ -4,6 +4,7 @@ angular.module("Treadstone" , ['Treadstone.home',
                                'Treadstone.addRoute',
                                'Treadstone.signup',
                                'Treadstone.login',
+                               'Treadstone.factory',
                                'ui.bootstrap',
                                'ngRoute'
                               ])
