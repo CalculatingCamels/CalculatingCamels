@@ -1,6 +1,6 @@
 angular.module('Treadstone.home', [])
 
-.controller('homeController', function ($scope, $location, $http){
+.controller('homeController', function ($scope, $location, $http, homeFactory){
 	//TODO
 	$scope.map;
 	$scope.city = "Enter Location"
