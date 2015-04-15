@@ -2,9 +2,8 @@
 	Add a Route
 	<div class='form-wrapper'>
 		<form id='add-route'>
-			<input type='text' placeholder='City' />
-			<input type='text' placeholder='State' />
-			<input type='submit' value='Submit' />
+			<input type='text' placeholder='Enter your location (city and state, or address)' ng-model="location" />
+			<input type='submit' value='Submit' ng-click="submit()"/>
 		</form>
 	</div>
 	<div class="mapWrap clearfix">
@@ -17,6 +16,7 @@
 					<p>Total Distance: <span id="total"></span></p>
 				</div>
 			</div>
+			<input type="submit" value="Save route" ng-click="saveRoute()"/>
 		</div>
 	</div>
 </div>
