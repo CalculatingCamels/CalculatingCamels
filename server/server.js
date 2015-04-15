@@ -7,8 +7,10 @@ var session = require('express-session')
 var app = express();
 
 app.use(bodyParser.json());
-app.use(express.static('../client'));
+app.use(express.static('./client'));
 
+//CMD:
+//'/Applications/pgAdmin3.app/Contents/SharedSupport/psql' --host 'ec2-50-17-207-54.compute-1.amazonaws.com' --port 5432 --username 'bjoadkdzfmmdeo' 'da61ffapcqmlrq' && exit || sleep 5 && exit
 var client = new pg.Client({
     user: "bjoadkdzfmmdeo",
     password: "1aGrTjAJmzRC3VduAbJN3nLUwo",
@@ -35,20 +37,33 @@ var connectDB = function(cb){
 var syncTables = function(){
   //create and load all schemas here
   var users = 'CREATE TABLE IF NOT EXISTS users (' +
-    'id integer NOT NULL PRIMARY KEY,' +
+    'id SERIAL NOT NULL PRIMARY KEY,' +
     'username varchar(40) NOT NULL,' +
-    'password varchar(255) NOT NULL,' +
+    'password varchar(255) NOT NULL' +
+  ');';
+
+  var cities = 'CREATE TABLE IF NOT EXISTS cities (' +
+    'id SERIAL NOT NULL PRIMARY KEY,' +
+    'name varchar(80) NOT NULL' +
   ');';
   
-  var routes = '';
+  var routes = 'CREATE TABLE IF NOT EXISTS routes (' +
+    'id SERIAL NOT NULL PRIMARY KEY,' +
+    'username varchar(80) NOT NULL,' +
+    'password varchar(255) NOT NULL,' +
+    'user_id integer NOT NULL,' +
+    'city_id integer NOT NULL' +
+  ');';
 
   connectDB(function(){
-    client.query(users, function(err, result){
+    client.query(users + ' ' + routes + ' ' + cities, function(err, result){
       if(err) return console.log(err);
-      console.log('created table `users`');
-    })
+      console.log('created tables');
+    });
   })
 };
+
+syncTables();
 
 app.get(['/route/add', '/profile'], function(req, res, next){
   if(!req.session.loggedIn) return next();
@@ -81,21 +96,40 @@ app.post('/api/signin', function(req, res){
   //req.body.username
   //req.body.password
   //req.body.redirect
-
+  console.log(req.body)
   if(req.session.loggedIn){
     //already logged in
-    res.json({'valid': true, 'redirect': req.body.redirect})
+    res.json({'valid': true})
   } else {
-    if(valid){
-      req.session.loggedIn = true;
-      res.json({'valid': true, 'redirect': req.body.redirect})
-    }
+    client.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [req.body.username], function(err, result){
+      console.log(result)
+      if(err) return console.log(err);
+      if(result.rows.length > 0 && result.rows[0].username === req.body.username && helpers.checkPassword(req.body.password, result.rows[0].password)){
+        req.session.loggedIn = true;
+        res.status(200).json({'valid': true});
+      } else {
+        res.status(200).json({'valid': false});
+      }
+    });
   }
 });
 
 //SIGNUP
 app.post('/api/signup', function(req, res){
-
+  //check if username is already existing
+  //hash password and store it
+  client.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [req.body.username], function(err, result){
+    if(err) return console.log(err);
+    if(result.rows.length > 0){
+      client.query('INSERT INTO users (username, password) VALUES (?,?)', [req.body.username, helpers.hashPassword(req.body.password)], function(err, result){
+        if(err) return console.log(err);
+        req.session.loggedIn = true;
+        res.status(200).json({'valid': true});
+      });
+    } else {
+      res.status(200).json({'valid': false})
+    }
+  });
 });
 
 

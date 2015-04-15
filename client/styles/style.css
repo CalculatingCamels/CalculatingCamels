@@ -1,36 +1,69 @@
 body{
-  background-color : #F9B40C;
+  background-color : #27ae60;
 }
-.wrapper{
+.wrapper {
   margin: auto;
   color: #080807;
 }
 /* HEADER */
-.header{
+.header {
   width:970px;
   margin:auto;
-
 }
-.logo{
+
+.logo {
   float:left;
   margin: 3px;
 }
-.masthead-brand{
+
+.masthead-brand {
+  font-size: 55px;
   float: left;
 }
-.cover{
+.cover {
   color: black;
   width:100%;
   height:500px;
-  /*background-image: url("bike-bg.jpg");*/
+  z-index: 1;
+  background: rgba(121, 119, 114, .6);
 }
-.inner-cover{
+
+.inner-cover {
+  z-index: 2;
   width:970px;
-  margin:auto;
+  margin: auto;
   text-align: center;
+  z-index: 1;
+}
+
+#map-canvas {
+  position: absolute;
+  width:100%;
+  height: 500px;
+}
+
+.center {
+  position: relative;
+  margin:  0 auto;
+  top: 150px;
+}
+
+.form-control {
+  margin: 0 auto;
+  width: 350px;
+  height: 50px;
 }
 
 #map-canvas{
-  width: 500px;
   height: 500px;
 }
+
+#directionsPanel {
+  height:500px;
+  background-color: white;
+  overflow: scroll;
+}
+.map-wrap{
+
+}
+
