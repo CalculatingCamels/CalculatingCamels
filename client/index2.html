@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Draggable directions</title>
+    <title>Simple styled maps</title>
     <style>
       html, body, #map-canvas {
         height: 100%;
@@ -13,98 +11,134 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
-
-var rendererOptions = {
-  draggable: true
-};
-var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);;
-var directionsService = new google.maps.DirectionsService();
 var map;
-var geocoder;
+var brooklyn = new google.maps.LatLng(40.6743890, -73.9455);
 
-var australia = new google.maps.LatLng(-25.274398, 133.775136);
+var MY_MAPTYPE_ID = 'custom_style';
 
 function initialize() {
 
+  var featureOpts = [{
+    "featureType": "all",
+    "elementType": "labels",
+    "stylers": [{"visibility" : "off"}]
+}, {
+    "featureType": "all",
+    "elementType": "labels.text.stroke",
+    "stylers": [{
+        "visibility": "off"
+    }]
+}, {
+    "featureType": "all",
+    "elementType": "labels.icon",
+    "stylers": [{
+        "visibility": "off"
+    }]
+}, {
+    "featureType": "administrative",
+    "elementType": "geometry.fill",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 20
+    }]
+}, {
+    "featureType": "administrative",
+    "elementType": "geometry.stroke",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 17
+    }, {
+        "weight": 1.2
+    }]
+}, {
+    "featureType": "landscape",
+    "elementType": "geometry",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 20
+    }]
+}, {
+    "featureType": "poi",
+    "elementType": "geometry",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 21
+    }]
+}, {
+    "featureType": "road.highway",
+    "elementType": "geometry.fill",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 17
+    }]
+}, {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 29
+    }, {
+        "weight": 0.2
+    }]
+}, {
+    "featureType": "road.arterial",
+    "elementType": "geometry",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 18
+    }]
+}, {
+    "featureType": "road.local",
+    "elementType": "geometry",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 16
+    }]
+}, {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 19
+    }]
+}, {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [{
+        "color": "#000000"
+    }, {
+        "lightness": 17
+    }]
+}];
+
   var mapOptions = {
-    zoom: 7,
-    center: australia
+    zoom: 12,
+    center: brooklyn,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
+    },
+    mapTypeId: MY_MAPTYPE_ID
   };
-  
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  directionsDisplay.setMap(map);
-  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
-    computeTotalDistance(directionsDisplay.getDirections());
-    console.log("THE DIRECTIONS ARE: ", directionsDisplay.getDirections())
-  });
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
 
-  calcRoute();
-}
-
-function calcRoute(origin, destination) {
-
-  var request = {
-    origin: 'Sydney, NSW',
-    destination: 'Sydney, NSW',
-    waypoints:[{location: 'Bourke, NSW'}, {location: 'Broken Hill, NSW'}],
-    travelMode: google.maps.TravelMode.DRIVING
+  var styledMapOptions = {
+    name: 'Custom Style'
   };
-  directionsService.route(request, function(response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    }
-  });
-}
 
-function computeTotalDistance(result) {
-  var total = 0;
-  var myroute = result.routes[0];
-  for (var i = 0; i < myroute.legs.length; i++) {
-    total += myroute.legs[i].distance.value;
-  }
-  total = total / 1000.0;
-  document.getElementById('total').innerHTML = total + ' km';
-}
+  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
 
-function submit(){
-  var obj = directionsDisplay.getDirections()
-  console.log(obj);
-  geocoder = new google.maps.Geocoder();
-  //gets the origin adress
-  var address = obj.request.origin
-
-  geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-
-      
-     
-      var lat = results[0].geometry.location.k
-      var lon = results[0].geometry.location.D
-
-      console.log('lat', lat)
-      console.log('lon', lon)
-      var center = new google.maps.LatLng(lat, lon);
-
-      var mapOptions = {
-        zoom : 7,
-        center : center
-      }
-
-      initialize2(mapOptions)
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-
-}
-
-function initialize2(mapOptions) {
-
-  map = new google.maps.Map(document.getElementById('map-canvas2'), mapOptions);
-  directionsDisplay.setMap(map);
-  // calcRoute2(mapOptions);
+  map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -112,13 +146,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
     </script>
   </head>
   <body>
-    <div id="map-canvas" style="float:left;width:70%; height:100%"></div>
-    <div id="directionsPanel" style="float:right;width:30%;height 100%">
-    <p>Total Distance: <span id="total"></span></p>
-    </div>
-
-    <button onclick="submit()"> Submit </button>
-
-    <div id="map-canvas2" style="float:left;width:70%; height:100%"></div>
+    <div id="map-canvas"></div>
   </body>
 </html>
