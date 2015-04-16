@@ -65,12 +65,6 @@ var syncTables = function(){
 
 syncTables();
 
-app.all('*', function(res,req,next){
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});
-
 app.get(['/route/add', '/profile'], function(req, res, next){
   if(!req.session.loggedIn) return next();
   res.redirect('/login');
