@@ -6,14 +6,6 @@ var session = require('express-session')
 
 var app = express();
 
-var allowCrossDomain = function(req, res, next){
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-}
-
-app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.use(express.static('./client'));
 
@@ -72,6 +64,12 @@ var syncTables = function(){
 };
 
 syncTables();
+
+app.all('*', function(res,req,next){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 
 app.get(['/route/add', '/profile'], function(req, res, next){
   if(!req.session.loggedIn) return next();
