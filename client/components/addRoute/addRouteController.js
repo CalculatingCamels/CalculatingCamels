@@ -27,6 +27,7 @@ angular.module('Treadstone.addRoute', [])
 			data: {'request': dir.request},
 			headers: { 'Content-Type': 'application/json' }
 		}).then(function(resp) {
+			alert('Route added!');
 			return resp.data;
 		})
 	}
