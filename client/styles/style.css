@@ -32,6 +32,7 @@ button{
   height:100%;
   z-index: -1;
 }
+
 /* ~~~~~ HEADER AND NAV STYLES ~~~~ */
 .header{
   border-radius: 3px;
@@ -83,3 +84,17 @@ button{
 .auth span{
   margin:3px;
 }
+/*~~~~~~~ addRoute ~~~~~~~~~~*/
+#directionsPanel{
+  color:#333;
+  background-color: #F4F4F4;
+}
+
+#map-canvas.embed{
+  height:500px;
+}
+.mapWrap .row::before{
+  content:none;
+}
+
+
