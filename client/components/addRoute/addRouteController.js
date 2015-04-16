@@ -1,8 +1,10 @@
 angular.module('Treadstone.addRoute', [])
 
 .controller('addRouteController', function ($scope, $http, geocoderFactory) {
-	console.log("Added a route Controller");
-	//THIS IS HERE TO TEST DIRECTIVE SCOPE INJECTION;
+
+	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
+	var directionsService = new google.maps.DirectionsService();
+	
 	renderMap("Austin, TX");
 	$scope.submit = function(){
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
@@ -17,16 +19,14 @@ angular.module('Treadstone.addRoute', [])
 	}
 
 	$scope.saveRoute = function(){
-		
+		var obj = directionsDisplay.getMap();
+		var dir = directionsDisplay.getDirections();
+		console.log('Map: ', obj);
+		console.log('Directions: ', dir);
 	}
 
 	function renderMap(location){
-		var rendererOptions = {
-		  draggable: true,
-		};
 
-		var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);;
-		var directionsService = new google.maps.DirectionsService();
 		var map;
 
 		// var centerPoint = new google.maps.LatLng($scope.lat, $scope.lon);
@@ -49,7 +49,6 @@ angular.module('Treadstone.addRoute', [])
 		
 
 		function calcRoute() {
-		  console.log("cityA", $scope.cityA, "cityB", $scope.cityB);
 		  var request = {
 		    origin: location,
 		    destination: location,
@@ -72,6 +71,8 @@ angular.module('Treadstone.addRoute', [])
 		  total = total / 1000.0;
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
+		
+		console.log(directionsDisplay.getDirections());
 	}
 })
 
