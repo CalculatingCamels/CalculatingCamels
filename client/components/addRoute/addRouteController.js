@@ -19,10 +19,16 @@ angular.module('Treadstone.addRoute', [])
 	}
 
 	$scope.saveRoute = function(){
-		var obj = directionsDisplay.getMap();
 		var dir = directionsDisplay.getDirections();
-		console.log('Map: ', obj);
-		console.log('Directions: ', dir);
+		
+		$http({
+			method: 'POST',
+			url: '/api/route/add',
+			data: {'request': dir.request},
+			headers: { 'Content-Type': 'application/json' }
+		}).then(function(resp) {
+			return resp.data;
+		})
 	}
 
 	function renderMap(location){
