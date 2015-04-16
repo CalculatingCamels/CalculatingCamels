@@ -21,7 +21,9 @@ angular.module('Treadstone.addRoute', [])
 	$scope.saveRoute = function(){
 		var dir = directionsDisplay.getDirections();
 		var position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
-		dir.request.cityState = "";
+		dir.request.routeName = "" + $scope.name;
+		dir.request.routeDescription = "" + $scope.description;
+
 		getCity(position, function(cityState) {
 			dir.request.cityState = cityState;
 		});
@@ -35,6 +37,9 @@ angular.module('Treadstone.addRoute', [])
 			return resp.data;
 		})
 
+		$scope.name = "";
+		$scope.description = "";
+		$scope.location = "";
 	}
 
 	function getCity(position, cb){
@@ -42,16 +47,14 @@ angular.module('Treadstone.addRoute', [])
 			method: 'GET',
 			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
 		}).then(function(data){
-			var cityState = data.data.results[4].formatted_address;
-			cb(cityState);
+			var location = formatCity(data.data.results[1]);
+			cb(location);
 		})
 	}
 
 	function renderMap(location){
 
 		var map;
-
-		// var centerPoint = new google.maps.LatLng($scope.lat, $scope.lon);
 
 		  var mapOptions = {
 		    zoom: 15,
@@ -94,7 +97,14 @@ angular.module('Treadstone.addRoute', [])
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
 		
-		console.log(directionsDisplay.getDirections());
+	}
+	
+	function formatCity(cityString) {
+		var cityState = cityString.formatted_address.split(',').slice(-3);
+		var formatCity = cityState[0];
+		var formatState = cityState[1].split(' ')[1];
+		var location = "" + formatCity + ", " + formatState;
+		return location;
 	}
 })
 
