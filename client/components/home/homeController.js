@@ -32,6 +32,8 @@ angular.module('Treadstone.home', [])
 
 	$scope.renderMap = function(position){
 		console.log("Map rendering");
+
+		//Adds styling
     var featureOpts = [
     {
       stylers: [
