@@ -22,7 +22,7 @@ angular.module('Treadstone.home', [])
 		$scope.renderMap(position);
 	  })
 	} else {
-		// We should have a default image if the map won't load
+		// We should have a default image if the map won't loa
 	  console.log('Geolocation is not supported on this browser');
 	}
 
@@ -32,11 +32,36 @@ angular.module('Treadstone.home', [])
 
 	$scope.renderMap = function(position){
 		console.log("Map rendering");
+
+		//Adds styling
+    var featureOpts = [
+    {
+      stylers: [
+        { visibility: 'simplified' },
+        { gamma: 0.5 },
+        { weight: 0.5 }
+      ]
+    },
+    {
+      elementType: 'labels',
+      stylers: [
+        { visibility: 'off' }
+      ]
+    },
+    {
+      featureType: 'water',
+      stylers: [
+        { color: '#368D96' }
+      ]
+    }];
+
 		var mapOptions = {
 			zoom: 14,
 			center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-			disableDefaultUI: true
+			scrollwheel: false,
+			styles : featureOpts
 		}
+
 		var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	}
 	
