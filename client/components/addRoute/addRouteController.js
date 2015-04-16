@@ -19,10 +19,32 @@ angular.module('Treadstone.addRoute', [])
 	}
 
 	$scope.saveRoute = function(){
-		var obj = directionsDisplay.getMap();
 		var dir = directionsDisplay.getDirections();
-		console.log('Map: ', obj);
-		console.log('Directions: ', dir);
+		var position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
+		dir.request.cityState = "";
+		getCity(position, function(cityState) {
+			dir.request.cityState = cityState;
+		});
+
+		$http({
+			method: 'POST',
+			url: '/api/route/add',
+			data: {'request': dir.request},
+			headers: { 'Content-Type': 'application/json' }
+		}).then(function(resp) {
+			return resp.data;
+		})
+
+	}
+
+	function getCity(position, cb){
+		$http({
+			method: 'GET',
+			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
+		}).then(function(data){
+			var cityState = data.data.results[4].formatted_address;
+			cb(cityState);
+		})
 	}
 
 	function renderMap(location){
