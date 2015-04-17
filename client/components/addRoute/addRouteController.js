@@ -8,7 +8,7 @@ angular.module('Treadstone.addRoute', [])
 	$scope.shown = false;
 	
 	//TODO This needs to be removed in the future;
-	renderMap("Austin, TX");
+	// renderMap("Austin, TX");
    
     // for documentation on googlemaps geocoding API and the geocoderFactory, 
     // look in factories.js file.
@@ -16,13 +16,14 @@ angular.module('Treadstone.addRoute', [])
 		//Geocoder takes an address and turns it into lat and lon.
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
 			if(status == google.maps.GeocoderStatus.OK){
-				$scope.shown = true;
 				$scope.lat = results[0].geometry.location.k
 				$scope.lon = results[0].geometry.location.D
 				$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
 				renderMap($scope.location);
 			}
-		});	
+		});
+		
+		$scope.shown = true;	
 	}
 
 	$scope.saveRoute = function(){
