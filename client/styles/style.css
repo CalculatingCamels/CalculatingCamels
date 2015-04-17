@@ -17,6 +17,9 @@ button{
   margin:3px;
   padding:5px 8px;
 }
+input, textarea{
+  color:black;
+}
 .hr-350{
   margin:3px auto;
   width:350px;
@@ -88,14 +91,26 @@ button{
 /*~~~~~~~ addRoute ~~~~~~~~~~*/
 #directionsPanel{
   color:#333;
+  max-height: 500px;
   background-color: #F4F4F4;
+  overflow: scroll;
+}
+.form-wrapper{
+  margin:5px;
 }
 
 #map-canvas.embed{
-  height:500px;
+  min-height:500px;
 }
 .mapWrap .row::before{
   content:none;
 }
+.loader{
+  position:relative;
+  z-index: 200;
+  text-align: center;
+  margin:100px auto;
+}
+
 
 
