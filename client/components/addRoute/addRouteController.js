@@ -30,8 +30,7 @@ angular.module('Treadstone.addRoute', [])
 		var position = {coords:{}};
 		var dir = directionsDisplay.getDirections();
 		if(typeof $scope.location === "string"){
-			geocoderFactory.createGeocoder($scope.location, function(results, status){
-				console.log("LAT AND LON", results[0].geometry.location.k, results[0].geometry.location.D);
+			geocoderFactory.createGeocoder($scope.location, function(results, status){		
 				dir.request.origin = {
 					k: results[0].geometry.location.k,
 					D: results[0].geometry.location.D
@@ -40,6 +39,7 @@ angular.module('Treadstone.addRoute', [])
 				console.log(JSON.stringify(dir.request));
 			});
 		}
+		
 		position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
 		getCity(position, function(cityState) {
 			dir.request.cityState = cityState;
@@ -119,8 +119,7 @@ angular.module('Treadstone.addRoute', [])
 		  total = total / 1000.0;
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
-		
-	}
+	} //END RENDER MAP
 	
 	function formatCity(cityString) {
 		var cityState = cityString.formatted_address.split(',').slice(-3);
