@@ -1,69 +1,69 @@
 angular.module('Treadstone.route', [])
 
 .controller('routeController', function ($scope, $routeParams, $http) {
-	var dummyData = {
-   "origin":{
-      "k":41.8781136,
-      "D":-87.62979819999998
-   },
-   "destination":{
-      "k":41.8963833,
-      "D":-87.74828079999997
-   },
-   "waypoints":[
-      {
-         "location":{
-            "k":41.9053178,
-            "D":-87.67109440000002
-         },
-         "stopover":false
-      },
-      {
-         "location":{
-            "k":41.8974409,
-            "D":-87.7029637
-         },
-         "stopover":false
-      },
-      {
-         "location":{
-            "k":41.9035254937501,
-            "D":-87.71951259090213
-         },
-         "stopover":false
-      }
-   ],
-   "travelMode":"BICYCLING",
-   "j":3,
-   "optimizeWaypoints":false,
-   "k":12,
-   "routeName":"undefined",
-   "routeDescription":"undefined",
-   "cityState":{
-      "ancestorOrigins":{
-         "length":0
-      },
-      "origin":"http://localhost:3000",
-      "hash":"#/route/add",
-      "search":"",
-      "pathname":"/",
-      "port":"3000",
-      "hostname":"localhost",
-      "host":"localhost:3000",
-      "protocol":"http:",
-      "href":"http://localhost:3000/#/route/add"
-   }
-}
+	// var dummyData = {
+ //   "origin":{
+ //      "k":41.8781136,
+ //      "D":-87.62979819999998
+ //   },
+ //   "destination":{
+ //      "k":41.8963833,
+ //      "D":-87.74828079999997
+ //   },
+ //   "waypoints":[
+ //      {
+ //         "location":{
+ //            "k":41.9053178,
+ //            "D":-87.67109440000002
+ //         },
+ //         "stopover":false
+ //      },
+ //      {
+ //         "location":{
+ //            "k":41.8974409,
+ //            "D":-87.7029637
+ //         },
+ //         "stopover":false
+ //      },
+ //      {
+ //         "location":{
+ //            "k":41.9035254937501,
+ //            "D":-87.71951259090213
+ //         },
+ //         "stopover":false
+ //      }
+ //   ],
+ //   "travelMode":"BICYCLING",
+ //   "j":3,
+ //   "optimizeWaypoints":false,
+ //   "k":12,
+ //   "routeName":"undefined",
+ //   "routeDescription":"undefined",
+ //   "cityState":{
+ //      "ancestorOrigins":{
+ //         "length":0
+ //      },
+ //      "origin":"http://localhost:3000",
+ //      "hash":"#/route/add",
+ //      "search":"",
+ //      "pathname":"/",
+ //      "port":"3000",
+ //      "hostname":"localhost",
+ //      "host":"localhost:3000",
+ //      "protocol":"http:",
+ //      "href":"http://localhost:3000/#/route/add"
+ //   }
+// }
 
-	var waypoints = [];
-
-	dummyData.waypoints.forEach(function(WP){
-		waypoints.push({
-			location: "" + WP.location.k + " " + WP.location.D
-		})
-	})
-
-	console.log(waypoints);
+  function parseWaypoints(waypoints){
+    var wpArray=[]
+  	waypoints.forEach(function(WP){
+  		wpArray.push({
+  			location: "" + WP.location.k + " " + WP.location.D
+  		})
+  	})
+    return wpArray;
+  };
 
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
@@ -74,7 +74,11 @@ angular.module('Treadstone.route', [])
 		method: 'GET',
 		url: '/api/routes/'+ $routeParams.route_id,
 	}).then(function(data) {
-		renderMap(dummyData.origin, waypoints, dummyData.destination, dummyData.travelMode);
+    //yes.... we need three datas.... 
+    //because my team is a piece of shit.
+    var routeInfo = JSON.parse(data.data.data);
+
+		renderMap(routeInfo.origin, parseWaypoints(routeInfo.waypoints), routeInfo.destination, routeInfo.travelMode);
 	})
 
 

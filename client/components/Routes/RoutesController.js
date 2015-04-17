@@ -11,7 +11,6 @@ angular.module('Treadstone.routes', [])
       url: "/api/routes/" + $scope.city
     }).then(function(data){
       console.log(Array.isArray(data));
-      debugger;
       $scope.routes = data.data;
       //You have to parse the data coming from the server
       $scope.routes.map(function(item){
