@@ -10,15 +10,14 @@ angular.module('Treadstone.login', [])
     }).then(function(data){
       console.log('data', data);
       if(data.data.valid){
-        //store username
-        
+
+        //I CHOOSE YOU LEGACY TEAM
+
       }else{
         $scope.error = 'Invalid username or password!';
       }
     })
   }
-
-
 })
 
 

@@ -7,9 +7,6 @@ angular.module('Treadstone.addRoute', [])
 
 	$scope.shown = false;
 	
-	//TODO This needs to be removed in the future;
-	// renderMap("Austin, TX");
-   
     // for documentation on googlemaps geocoding API and the geocoderFactory, 
     // look in factories.js file.
 	$scope.submit = function(){
@@ -22,84 +19,92 @@ angular.module('Treadstone.addRoute', [])
 				renderMap($scope.location);
 			}
 		});
-		
 		$scope.shown = true;	
 	}
 
 	$scope.saveRoute = function(){
-		var position = {coords:{}};
 		var dir = directionsDisplay.getDirections();
-		if(typeof $scope.location === "string"){
-			geocoderFactory.createGeocoder($scope.location, function(results, status){		
+
+		
+		dir.request.routeName = "" + $scope.name;
+		dir.request.routeDescription = "" + $scope.description;
+		if( typeof(dir.request.origin) === 'string' ){
+
+			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
 				dir.request.origin = {
-					k: results[0].geometry.location.k,
-					D: results[0].geometry.location.D
+					k:results[0].geometry.location.k,
+					D:results[0].geometry.location.D
 				}
+				getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
+					console.log("if",dir.request);
+					dir.request.cityState = cityState;
+					$scope.name = "";
+					$scope.description = "";
+					$scope.location = "";
+					postRoute();
+				});
+
+			})
+
+		} else {
+
+			getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
+			console.log("else",dir.request)
+				dir.request.cityState = cityState;
+				$scope.name = "";
+				$scope.description = "";
+				$scope.location = "";
 				postRoute();
 			});
-		} else {
-			position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
-			getCity(position, function(cityState) {
-				dir.request.cityState = cityState;
-			});
-			
-			dir.request.routeName = "" + $scope.name;
-			dir.request.routeDescription = "" + $scope.description;
 
-			postRoute();
-			
 		}
+
 		
 
 		function postRoute() {
 			return $http({
 						method: 'POST',
 						url: '/api/routes',
-						data: {'request': dir.request},
+						data: dir.request,
 						headers: { 'Content-Type': 'application/json' }
 					}).then(function(resp) {
 						return resp.data;
 					})
 		} 
 			
-
-		$scope.name = "";
-		$scope.description = "";
-		$scope.location = "";
 	}
 
-	function getCity(position, cb){
+	function getCity(latitude, longitude, cb){
 		$http({
 			method: 'GET',
-			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
+			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + "," + longitude
 		}).then(function(data){
-			// var location = formatCity(data.data.results[1]);
+			var location = formatCity(data.data.results[1]);
 			cb(location);
 		})
 	}
 
 	function renderMap(location){
-
 		var map;
 
-		  var mapOptions = {
-		    zoom: 12,
-		    center: $scope.center,
-		    scrollwheel: false,
-		    // disableDefaultUI: false
-		  };
+	  var mapOptions = {
+	    zoom: 12,
+	    center: $scope.center,
+	    scrollwheel: false,
+	    // disableDefaultUI: false
+	  };
 
-		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-		  directionsDisplay.setOptions({preserveViewport : true})
-		  directionsDisplay.setMap(map);
-		  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+	  directionsDisplay.setOptions({preserveViewport : true})
+	  directionsDisplay.setMap(map);
+	  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-		  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
-		    computeTotalDistance(directionsDisplay.getDirections());
-		  });
+	  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
+	    computeTotalDistance(directionsDisplay.getDirections());
+	  });
 
-		  calcRoute();
+	  calcRoute();
 		
 
 		function calcRoute() {
@@ -132,7 +137,7 @@ angular.module('Treadstone.addRoute', [])
 		var formatCity = cityState[0];
 		var formatState = cityState[1].split(' ')[1];
 		var location = "" + formatCity + ", " + formatState;
-		return location;
+		return location.trim();
 	}
 })
 

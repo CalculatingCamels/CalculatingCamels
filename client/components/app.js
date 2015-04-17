@@ -16,7 +16,7 @@ angular.module("Treadstone" , ['Treadstone.home',
       templateUrl : 'components/home/homeView.html',
       controller  : 'homeController'
     })
-    .when('/search/:city/:distance', {
+    .when('/search/:city', {
       templateUrl : 'components/Routes/routesView.html',
       controller : 'routesController' 
     })

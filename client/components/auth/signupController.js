@@ -17,6 +17,8 @@ angular.module('Treadstone.signup', [])
         $scope.error = 'That username is already taken!';
       }
     })
+    $scope.username = '';
+    $scope.password = '';
   }
 
 
