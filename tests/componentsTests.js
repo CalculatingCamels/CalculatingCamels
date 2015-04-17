@@ -4,12 +4,15 @@ describe("An AngularJS test suite", function(){
   it("should have tests", function(){
   	expect(true).toBe(true);
   });
+
   it("should inject resources", inject( function ($resource) {
   	expect($resource).toBeDefined();
   }));
+
 });
 
 describe("factories.js", function(){
   beforeEach(module('Treadstone.factory'));
+
   
 });

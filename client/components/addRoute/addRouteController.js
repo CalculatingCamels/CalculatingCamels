@@ -6,6 +6,9 @@ angular.module('Treadstone.addRoute', [])
 	var directionsService = new google.maps.DirectionsService();
 	
 	renderMap("Austin, TX");
+   
+    // for documentation on googlemaps geocoding API and the geocoderFactory, 
+    // look in factories.js file.
 	$scope.submit = function(){
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
 			if(status == google.maps.GeocoderStatus.OK){
