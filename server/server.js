@@ -122,7 +122,7 @@ app.post('/api/routes', function(req, res){
   //1) Check if the city the route is in is supported.
   //2) If the city is valid, grab the city_id.
   //3) Stringify input data and insert the route into the DB. Return the route's ID after a successful insertion.
-  if(!req.session || !req.session.loggedIn) return res.status(401).json('error': 'unauthorized call');
+  if(!req.session || !req.session.loggedIn) return res.status(401).json({'error': 'unauthorized call'});
   var formattedCity = helpers.formatCity(req.body.cityState);
   client.query('SELECT * FROM cities WHERE name = $1', [formattedCity], function(err, result){
     if(result && result.rows.length > 0){
@@ -161,7 +161,7 @@ app.post('/api/signup', function(req, res){
   //Query the database for the desired username.
   client.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [req.body.username], function(err, result){
     //If there are no rows with this username:
-    if(result && result.rows.length === 0){
+    if(!result || result.rows.length === 0){
       client.query('INSERT INTO users (username, password) VALUES ($1,$2) RETURNING id', [req.body.username, helpers.hashPassword(req.body.password)], function(err, result){
         req.session.loggedIn = true;
         req.session.username = req.body.username;

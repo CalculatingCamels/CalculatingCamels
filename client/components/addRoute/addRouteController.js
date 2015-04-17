@@ -35,27 +35,33 @@ angular.module('Treadstone.addRoute', [])
 					k: results[0].geometry.location.k,
 					D: results[0].geometry.location.D
 				}
-				
-				console.log(JSON.stringify(dir.request));
+				postRoute();
 			});
+		} else {
+			position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
+			getCity(position, function(cityState) {
+				dir.request.cityState = cityState;
+			});
+			
+			dir.request.routeName = "" + $scope.name;
+			dir.request.routeDescription = "" + $scope.description;
+
+			postRoute();
+			
 		}
 		
-		position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
-		getCity(position, function(cityState) {
-			dir.request.cityState = cityState;
-		});
-		
-		dir.request.routeName = "" + $scope.name;
-		dir.request.routeDescription = "" + $scope.description;
 
-		$http({
-			method: 'POST',
-			url: '/api/route/add',
-			data: {'request': dir.request},
-			headers: { 'Content-Type': 'application/json' }
-		}).then(function(resp) {
-			return resp.data;
-		})
+		function postRoute() {
+			return $http({
+						method: 'POST',
+						url: '/api/routes',
+						data: {'request': dir.request},
+						headers: { 'Content-Type': 'application/json' }
+					}).then(function(resp) {
+						return resp.data;
+					})
+		} 
+			
 
 		$scope.name = "";
 		$scope.description = "";

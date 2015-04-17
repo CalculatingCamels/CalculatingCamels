@@ -10,7 +10,7 @@ angular.module('Treadstone.signup', [])
       data: {username : $scope.username , password : $scope.password},
     }).then(function(data){
       console.log('data', data);
-      if(data.valid){
+      if(data.data.valid){
         //store username
         
       }else{
