@@ -30,10 +30,15 @@ angular.module('Treadstone.addRoute', [])
 		var dir = directionsDisplay.getDirections();
 		if(typeof $scope.location === "string"){
 			geocoderFactory.createGeocoder($scope.location, function(results, status){
-				dir.request.origin.k = results[0].geometry.location.k;
-				dir.request.origin.D = results[0].geometry.location.D;
+				console.log("LAT AND LON", results[0].geometry.location.k, results[0].geometry.location.D);
+				dir.request.origin = {
+					k: results[0].geometry.location.k,
+					D: results[0].geometry.location.D
+				}
+				
+				console.log(JSON.stringify(dir.request));
 			});
-		
+		}
 		position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
 		getCity(position, function(cityState) {
 			dir.request.cityState = cityState;
@@ -54,7 +59,6 @@ angular.module('Treadstone.addRoute', [])
 		$scope.name = "";
 		$scope.description = "";
 		$scope.location = "";
-
 	}
 
 	function getCity(position, cb){
@@ -62,7 +66,7 @@ angular.module('Treadstone.addRoute', [])
 			method: 'GET',
 			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
 		}).then(function(data){
-			var location = formatCity(data.data.results[1]);
+			// var location = formatCity(data.data.results[1]);
 			cb(location);
 		})
 	}
@@ -80,8 +84,8 @@ angular.module('Treadstone.addRoute', [])
 
 		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-		  directionsDisplay.setMap(map);
 		  directionsDisplay.setOptions({preserveViewport : true})
+		  directionsDisplay.setMap(map);
 		  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
 		  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
