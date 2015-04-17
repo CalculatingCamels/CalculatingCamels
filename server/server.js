@@ -78,11 +78,8 @@ app.get('/api/routes/:routeid', function(req, res){
 
 //ADD A NEW ROUTE
 app.post('/api/route/add', function(req, res){
-  //req.body.route_name
-  //req.body.route_data
-
-  //insert into DB here
-
+  console.log('insert into DB:', req.body)
+  
   res.status(200).json({'route_id': '1255675645342'})
 });
 
