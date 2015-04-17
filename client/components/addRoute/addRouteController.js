@@ -51,7 +51,7 @@ angular.module('Treadstone.addRoute', [])
 		} else {
 
 			getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
-				console.log("else",dir.request)
+			console.log("else",dir.request)
 				dir.request.cityState = cityState;
 				$scope.name = "";
 				$scope.description = "";
