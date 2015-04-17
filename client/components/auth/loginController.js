@@ -1,6 +1,7 @@
 angular.module('Treadstone.login', [])
 
 .controller('loginController', function ($scope, $http){
+  $scope.error = '';
   $scope.submit = function(){
     $http({
       method: 'POST',
@@ -10,9 +11,9 @@ angular.module('Treadstone.login', [])
       console.log('data', data);
       if(data.valid){
         //store username
+        
       }else{
-        //actually display this. 
-        console.log("Invalid Username or Password");
+        $scope.error = 'Invalid username or password!';
       }
     })
   }

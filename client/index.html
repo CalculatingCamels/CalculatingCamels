@@ -2,19 +2,21 @@
 <html ng-app = "Treadstone">
 <head>
   <title>Treadstone</title>
-  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="styles/style.css">
+  <link rel="icon" type="image/png" href="styles/treadstone-logo.png">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <div class = 'wrapper'> 
-  <div class = "header clearfix">
+  <div class = "header clearfix">   
     <div class = "brand clearfix">
-    <a href='#/'>
     <!-- <a href='#/'> -->
       <img class = "logo" src = "styles/treadstone-logo-small.png">
-      <h1 class="masthead-brand">TreadStone</h1>
+      <h1 class="masthead-brand"><a href="#/">TreadStone</a></h1>
     <!-- </a> -->
     </div>
+    <hr class="hr-350">
     <div class='navigation'>
       <ul>
         <li><a href='#/login'>Login</a></li>
@@ -22,9 +24,9 @@
       </ul>
     </div>
   </div>
-  <div ng-view>
-    <!-- Different Views will populate this div element depending on the route that is requested -->
-  </div> 
+  <div class="site-wrapper">
+    <div ng-view></div> 
+  </div>
 </div>
 
 <!-- scripts --> 

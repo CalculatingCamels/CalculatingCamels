@@ -21,9 +21,10 @@ git push origin developer
 git branch -d <your branch>
 
 
-
-
 there’s no tracking information for the current branch (ERROR):
 if the branch doesn’t exist: git branch developer origin/developer
 if the branch exists: git pull origin developer
 if neither work: delete repo and re-clone
+
+### Known Issues ###
+ - If you are unable to access the root directory, try changing line ~10  "app.use(express.static('./client'));" >> "app.use(express.static('../client'));". For some reason, using two dots works for some people... 

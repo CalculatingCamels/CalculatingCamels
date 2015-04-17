@@ -3,20 +3,22 @@
 	<div class='form-wrapper'>
 		<form id='add-route'>
 			<input type='text' placeholder='Enter your location (city and state, or address)' ng-model="location" />
-			<input type='submit' value='Submit' ng-click="submit()"/>
+			<button type='submit' ng-click="submit()">Search</button>
+			<input type="text" name="route-name" placeholder="Name your Route" ng-model="name"/>
+			<input type="text" name="route-description" placeholder="Describe your Route" ng-model="description"/>
+			<button type="submit" ng-click="saveRoute()"> Save Route</button>
 		</form>
 	</div>
-	<div class="mapWrap clearfix">
+	<div class="mapWrap">
 		<div class="row">
 			<div class="col-md-8">
-			  <div id='map-canvas' map-directive=''></div>
+			  <div id='map-canvas' class = "embed" map-directive=''></div>
 			</div>
 			<div class="col-md-4">
 				<div id="directionsPanel">
 					<p>Total Distance: <span id="total"></span></p>
 				</div>
 			</div>
-			<input type="submit" value="Save route" ng-click="saveRoute()"/>
-		</div>
-	</div>
+		</div><!-- END ROW -->
+	</div><!-- END mapWrap -->
 </div>
