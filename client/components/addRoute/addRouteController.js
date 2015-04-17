@@ -4,6 +4,8 @@ angular.module('Treadstone.addRoute', [])
 
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
+
+	$scope.shown = false;
 	
 	//TODO This needs to be removed in the future;
 	renderMap("Austin, TX");
@@ -14,6 +16,7 @@ angular.module('Treadstone.addRoute', [])
 		//Geocoder takes an address and turns it into lat and lon.
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
 			if(status == google.maps.GeocoderStatus.OK){
+				$scope.shown = true;
 				$scope.lat = results[0].geometry.location.k
 				$scope.lon = results[0].geometry.location.D
 				$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
@@ -38,7 +41,6 @@ angular.module('Treadstone.addRoute', [])
 		
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
-		console.log(dir.request);
 
 		$http({
 			method: 'POST',
@@ -52,6 +54,7 @@ angular.module('Treadstone.addRoute', [])
 		$scope.name = "";
 		$scope.description = "";
 		$scope.location = "";
+
 	}
 
 	function getCity(position, cb){
@@ -69,13 +72,16 @@ angular.module('Treadstone.addRoute', [])
 		var map;
 
 		  var mapOptions = {
-		    zoom: 15,
+		    zoom: 12,
 		    center: $scope.center,
-		    disableDefaultUI: false
+		    scrollwheel: false,
+		    // disableDefaultUI: false
 		  };
 
 		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
 		  directionsDisplay.setMap(map);
+		  directionsDisplay.setOptions({preserveViewport : true})
 		  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
 		  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
