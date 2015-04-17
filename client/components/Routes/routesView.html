@@ -1,3 +1,20 @@
 <h1>ROUTES VIEW</h1>
-<h3>Showing routes for {{ city }}</h3>
+
+
+<div ng-show="routes.hasOwnProperty('error')">
+  <h3>Sorry. Your city is not supported yet.</h3>
+</div>
+
+<div ng-hide="routes.hasOwnProperty('error')">
+  <h3>Showing routes for {{ city }}</h3>
+  <div class ="routes">
+    <ul>
+      <li class="route" ng-repeat="route in routes">
+
+        <h3><a href="#/route/{{route.id}}">{{route.routeName}}</a></h3>
+        <p>{{route.routeDescription}}</p>
+      </li>
+    </ul>
+  </div>
+</div>
 
