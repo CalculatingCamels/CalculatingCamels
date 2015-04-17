@@ -8,3 +8,8 @@ describe("An AngularJS test suite", function(){
   	expect($resource).toBeDefined();
   }));
 });
+
+describe("factories.js", function(){
+  beforeEach(module('Treadstone.factory'));
+  
+});
