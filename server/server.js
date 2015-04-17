@@ -62,10 +62,10 @@ var syncTables = function(){
 
   var insertCity = "INSERT INTO cities (name, display_name) VALUES ('austin,tx', 'Austin, TX');";
 
-  var insertRoute = "INSERT INTO routes (user_id, data, city_id) VALUES (1, '{some json route data here}', 1);";
+  //var insertRoute = "INSERT INTO routes (user_id, data, city_id) VALUES (1, '{some json route data here}', 1);";
 
   connectDB(function(){
-    client.query(dropTables + ' ' + users + ' ' + routes + ' ' + cities + ' ' + insertCity + ' ' + insertRoute, function(err, result){
+    client.query(dropTables + ' ' + users + ' ' + routes + ' ' + cities + ' ' + insertCity, function(err, result){
       if(err) return console.log(err);
       console.log('dropped and recreated tables');
     });

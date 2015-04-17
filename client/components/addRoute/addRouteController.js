@@ -19,7 +19,6 @@ angular.module('Treadstone.addRoute', [])
 				renderMap($scope.location);
 			}
 		});
-		
 		$scope.shown = true;	
 	}
 
@@ -86,27 +85,26 @@ angular.module('Treadstone.addRoute', [])
 	}
 
 	function renderMap(location){
-
 		var map;
 
-		  var mapOptions = {
-		    zoom: 12,
-		    center: $scope.center,
-		    scrollwheel: false,
-		    // disableDefaultUI: false
-		  };
+	  var mapOptions = {
+	    zoom: 12,
+	    center: $scope.center,
+	    scrollwheel: false,
+	    // disableDefaultUI: false
+	  };
 
-		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-		  directionsDisplay.setOptions({preserveViewport : true})
-		  directionsDisplay.setMap(map);
-		  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+	  directionsDisplay.setOptions({preserveViewport : true})
+	  directionsDisplay.setMap(map);
+	  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-		  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
-		    computeTotalDistance(directionsDisplay.getDirections());
-		  });
+	  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
+	    computeTotalDistance(directionsDisplay.getDirections());
+	  });
 
-		  calcRoute();
+	  calcRoute();
 		
 
 		function calcRoute() {
