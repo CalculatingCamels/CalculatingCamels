@@ -11,6 +11,7 @@ angular.module('Treadstone.addRoute', [])
     // for documentation on googlemaps geocoding API and the geocoderFactory, 
     // look in factories.js file.
 	$scope.submit = function(){
+		//Geocoder takes an address and turns it into lat and lon.
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
 			if(status == google.maps.GeocoderStatus.OK){
 				$scope.lat = results[0].geometry.location.k
@@ -23,15 +24,21 @@ angular.module('Treadstone.addRoute', [])
 	}
 
 	$scope.saveRoute = function(){
+		var position = {coords:{}};
 		var dir = directionsDisplay.getDirections();
-		var position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
+		if(typeof $scope.location === "string"){
+			geocoderFactory.createGeocoder($scope.location, function(results, status){
+				position.coords.latitude = results[0].geometry.location.k;
+				position.coords.longitude = results[0].geometry.location.D;
+			});
+		} else {
+			position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
+			getCity(position, function(cityState) {
+				dir.request.cityState = cityState;
+			});
+		}
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
-		getCity(position, function(cityState) {
-			console.log("Dir object:", dir.request);
-			console.log("JSON object", JSON.stringify(dir.request));
-			dir.request.cityState = cityState;
-		});
 
 		$http({
 			method: 'POST',
