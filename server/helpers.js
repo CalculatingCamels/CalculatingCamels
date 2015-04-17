@@ -8,3 +8,11 @@ exports.hashPassword = function(str){
 exports.checkPassword = function(plain, hash){
   return bcrypt.compareSync(plain, hash);
 }
+
+exports.isNumeric = function(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+exports.formatCity = function(city){
+  return city.split(' ').join('').toLowerCase();
+}
