@@ -1,22 +1,30 @@
 <div class='wrap-add'>
-	Add a Route
 	<div class='form-wrapper'>
+	  <h3>Add a Route</h3>
 		<form id='add-route'>
 			<input type='text' placeholder='Enter your location (city and state, or address)' ng-model="location" />
-			<input type='submit' value='Submit' ng-click="submit()"/>
+			<button type='submit' ng-click="submit()">Search</button>
+		</form>
+		<form id="name-route" ng-show="shown">
+			Route Name: <br>
+			<input type="text" name="route-name" placeholder="Name your Route" ng-model="name"/><br/>
+			<!-- <input type="text" name="route-description" placeholder="Describe your Route" ng-model="description"/> -->
+			Route Description <br>
+			<textarea form="name-route" ng-model="description" placeholder="Describe your route." cols="30" rows="4"></textarea>
+			<button type="submit" ng-click="saveRoute()"> Save Route</button>
 		</form>
 	</div>
-	<div class="mapWrap clearfix">
+	<div class="mapWrap">
 		<div class="row">
 			<div class="col-md-8">
-			  <div id='map-canvas' map-directive=''></div>
+			  <div class="loader" ng-hide="shown"><img src="../styles/spiffygif_90x90.gif"></div>
+			  <div id='map-canvas' class = "embed" style="z-index: 1;"></div>
 			</div>
 			<div class="col-md-4">
 				<div id="directionsPanel">
 					<p>Total Distance: <span id="total"></span></p>
 				</div>
 			</div>
-			<input type="submit" value="Save route" ng-click="saveRoute()"/>
-		</div>
-	</div>
+		</div><!-- END ROW -->
+	</div><!-- END mapWrap -->
 </div>

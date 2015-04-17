@@ -1,14 +1,12 @@
-<div ng-controller="loginController">
+<div class="auth" ng-controller="loginController">
 <h3>Login</h3>
   <div ng-show="error">
     <span class="red">Oh no! {{ error }}</span>
     <hr />
   </div>
   <form class = "authForm" ng-submit="submit()">
-    Username <br/>
-    <input type="text" placeholder="JohnDoe" ng-model="username"><br/>
-    Password <br/>
-    <input type="password" ng-model="password"><br/>
-    <input type="submit" value="Log In">
+    <span>Username: <input type="text" placeholder="JohnDoe" ng-model="username"><br/></span>
+    <span>Password: <input type="password" ng-model="password"><br/></span>
+    <button>Submit</button>
   </form>
 </div>

@@ -5,6 +5,7 @@ angular.module("Treadstone" , ['Treadstone.home',
                                'Treadstone.signup',
                                'Treadstone.login',
                                'Treadstone.factory',
+                               'Treadstone.about',
                                'ui.bootstrap',
                                'ngRoute'
                               ])
@@ -34,6 +35,10 @@ angular.module("Treadstone" , ['Treadstone.home',
     .when('/signup', {
       templateUrl: 'components/auth/signupView.html',
       controller: 'signupController'
+    })
+    .when('/about',{
+      templateUrl: 'components/about/aboutView.html',
+      controller: 'aboutController'
     })
 })// END CONFIG
 
