@@ -19,6 +19,9 @@ module.exports = function(config) {
       'client/bower_components/angular-mocks/angular-mocks.js',
       'client/bower_components/angular-route/angular-route.js',
       'client/bower_components/angular-resource/angular-resource.js',
+      "https://maps.googleapis.com/maps/api/js?v=3.exp",
+      'client/components/**/*.js',
+      'client/vendor/*.js',
       'tests/*.js',
       'tests/*Spec.js'
     ],
