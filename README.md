@@ -6,7 +6,7 @@ Git Workflow: https://docs.google.com/document/d/1On2krMGCtfYS8xnR6FLhZ-gO1UUJtN
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [Usage](#usage)
 1. [Installing Dependencies](#installing-dependencies)
 1. [Team](#team)
 1. [Contributing](#contributing)

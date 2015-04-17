@@ -7,92 +7,105 @@ angular.module('Treadstone.addRoute', [])
 
 	$scope.shown = false;
 	
-	//TODO This needs to be removed in the future;
-	renderMap("Austin, TX");
-   
     // for documentation on googlemaps geocoding API and the geocoderFactory, 
     // look in factories.js file.
 	$scope.submit = function(){
 		//Geocoder takes an address and turns it into lat and lon.
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
 			if(status == google.maps.GeocoderStatus.OK){
-				$scope.shown = true;
 				$scope.lat = results[0].geometry.location.k
 				$scope.lon = results[0].geometry.location.D
 				$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
 				renderMap($scope.location);
 			}
-		});	
+		});
+		$scope.shown = true;	
 	}
 
 	$scope.saveRoute = function(){
-		var position = {coords:{}};
 		var dir = directionsDisplay.getDirections();
-		if(typeof $scope.location === "string"){
-			geocoderFactory.createGeocoder($scope.location, function(results, status){
-				console.log("LAT AND LON", results[0].geometry.location.k, results[0].geometry.location.D);
-				dir.request.origin = {
-					k: results[0].geometry.location.k,
-					D: results[0].geometry.location.D
-				}
-				
-				console.log(JSON.stringify(dir.request));
-			});
-		}
-		position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
-		getCity(position, function(cityState) {
-			dir.request.cityState = cityState;
-		});
+
 		
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
+		if( typeof(dir.request.origin) === 'string' ){
 
-		$http({
-			method: 'POST',
-			url: '/api/route/add',
-			data: {'request': dir.request},
-			headers: { 'Content-Type': 'application/json' }
-		}).then(function(resp) {
-			return resp.data;
-		})
+			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
+				dir.request.origin = {
+					k:results[0].geometry.location.k,
+					D:results[0].geometry.location.D
+				}
+				getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
+					console.log("if",dir.request);
+					dir.request.cityState = cityState;
+					$scope.name = "";
+					$scope.description = "";
+					$scope.location = "";
+					postRoute();
+				});
 
-		$scope.name = "";
-		$scope.description = "";
-		$scope.location = "";
+			})
+				// postRoute();
+
+		} else {
+
+			getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
+				console.log("else",dir.request)
+				dir.request.cityState = cityState;
+				$scope.name = "";
+				$scope.description = "";
+				$scope.location = "";
+				postRoute();
+			});
+
+		}
+
+		
+
+		function postRoute() {
+			return $http({
+						method: 'POST',
+						url: '/api/routes',
+						data: dir.request,
+						headers: { 'Content-Type': 'application/json' }
+					}).then(function(resp) {
+						return resp.data;
+					})
+		} 
+			
 	}
 
-	function getCity(position, cb){
+	function getCity(latitude, longitude, cb){
 		$http({
 			method: 'GET',
-			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
+			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + "," + longitude
 		}).then(function(data){
-			// var location = formatCity(data.data.results[1]);
+			var location = formatCity(data.data.results[1]);
 			cb(location);
 		})
 	}
 
 	function renderMap(location){
-
 		var map;
 
-		  var mapOptions = {
-		    zoom: 12,
-		    center: $scope.center,
-		    scrollwheel: false,
-		    // disableDefaultUI: false
-		  };
+	  var mapOptions = {
+	    zoom: 12,
+	    center: $scope.center,
+	    scrollwheel: false,
+	    // disableDefaultUI: false
+	  };
 
-		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-		  directionsDisplay.setOptions({preserveViewport : true})
-		  directionsDisplay.setMap(map);
-		  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+	  directionsDisplay.setOptions({preserveViewport : true})
+	  directionsDisplay.setMap(map);
+	  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-		  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
-		    computeTotalDistance(directionsDisplay.getDirections());
-		  });
+	  google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
+	    computeTotalDistance(directionsDisplay.getDirections());
+	  });
 
-		  calcRoute();
+	  calcRoute();
 		
 
 		function calcRoute() {
@@ -118,15 +131,14 @@ angular.module('Treadstone.addRoute', [])
 		  total = total / 1000.0;
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
-		
-	}
+	} //END RENDER MAP
 	
 	function formatCity(cityString) {
 		var cityState = cityString.formatted_address.split(',').slice(-3);
 		var formatCity = cityState[0];
 		var formatState = cityState[1].split(' ')[1];
 		var location = "" + formatCity + ", " + formatState;
-		return location;
+		return location.trim();
 	}
 })
 
