@@ -96,7 +96,9 @@ input, textarea{
   overflow: scroll;
 }
 .form-wrapper{
-  margin:5px;
+  margin:0 auto;
+  text-align: center;
+
 }
 
 #map-canvas.embed{
@@ -111,6 +113,7 @@ input, textarea{
   text-align: center;
   margin:100px auto;
 }
+
 
 
 
