@@ -4,43 +4,64 @@ angular.module('Treadstone.addRoute', [])
 
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
+
+	$scope.shown = false;
 	
 	//TODO This needs to be removed in the future;
-	renderMap("Austin, TX");
+	// renderMap("Austin, TX");
    
     // for documentation on googlemaps geocoding API and the geocoderFactory, 
     // look in factories.js file.
 	$scope.submit = function(){
+		//Geocoder takes an address and turns it into lat and lon.
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
 			if(status == google.maps.GeocoderStatus.OK){
 				$scope.lat = results[0].geometry.location.k
 				$scope.lon = results[0].geometry.location.D
-				console.log($scope.lat, $scope.lon);
 				$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
 				renderMap($scope.location);
 			}
-		});	
+		});
+		
+		$scope.shown = true;	
 	}
 
 	$scope.saveRoute = function(){
+		var position = {coords:{}};
 		var dir = directionsDisplay.getDirections();
-		var position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
-		dir.request.routeName = "" + $scope.name;
-		dir.request.routeDescription = "" + $scope.description;
-		getCity(position, function(cityState) {
-			console.log("Dir object:", dir.request);
-			console.log("JSON object", JSON.stringify(dir.request));
-			dir.request.cityState = cityState;
-		});
+		if(typeof $scope.location === "string"){
+			geocoderFactory.createGeocoder($scope.location, function(results, status){		
+				dir.request.origin = {
+					k: results[0].geometry.location.k,
+					D: results[0].geometry.location.D
+				}
+				postRoute();
+			});
+		} else {
+			position = {coords: {latitude: dir.request.origin.k, longitude: dir.request.origin.D}}
+			getCity(position, function(cityState) {
+				dir.request.cityState = cityState;
+			});
+			
+			dir.request.routeName = "" + $scope.name;
+			dir.request.routeDescription = "" + $scope.description;
 
-		$http({
-			method: 'POST',
-			url: '/api/route/add',
-			data: {'request': dir.request},
-			headers: { 'Content-Type': 'application/json' }
-		}).then(function(resp) {
-			return resp.data;
-		})
+			postRoute();
+			
+		}
+		
+
+		function postRoute() {
+			return $http({
+						method: 'POST',
+						url: '/api/routes',
+						data: {'request': dir.request},
+						headers: { 'Content-Type': 'application/json' }
+					}).then(function(resp) {
+						return resp.data;
+					})
+		} 
+			
 
 		$scope.name = "";
 		$scope.description = "";
@@ -52,7 +73,7 @@ angular.module('Treadstone.addRoute', [])
 			method: 'GET',
 			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
 		}).then(function(data){
-			var location = formatCity(data.data.results[1]);
+			// var location = formatCity(data.data.results[1]);
 			cb(location);
 		})
 	}
@@ -62,12 +83,15 @@ angular.module('Treadstone.addRoute', [])
 		var map;
 
 		  var mapOptions = {
-		    zoom: 15,
+		    zoom: 12,
 		    center: $scope.center,
-		    disableDefaultUI: false
+		    scrollwheel: false,
+		    // disableDefaultUI: false
 		  };
 
 		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+		  directionsDisplay.setOptions({preserveViewport : true})
 		  directionsDisplay.setMap(map);
 		  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
@@ -101,8 +125,7 @@ angular.module('Treadstone.addRoute', [])
 		  total = total / 1000.0;
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
-		
-	}
+	} //END RENDER MAP
 	
 	function formatCity(cityString) {
 		var cityState = cityString.formatted_address.split(',').slice(-3);

@@ -1,30 +1,44 @@
 # Treadstone
 
-Route tracking and visualization for cyclists
+Route tracking and visualization for cyclists.
 
-Treadstone Git Flow
-README.md
-Based on: http://nvie.com/posts/a-successful-git-branching-model/
+Git Workflow: https://docs.google.com/document/d/1On2krMGCtfYS8xnR6FLhZ-gO1UUJtNCcDmZQY6UojFU/edit
 
-googledoc: https://docs.google.com/document/d/1On2krMGCtfYS8xnR6FLhZ-gO1UUJtNCcDmZQY6UojFU/edit
+## Table of Contents
 
-git checkout -b <your branch> developer
-→ Make Changes
-git add / git commit
-→ code review
-git checkout developer
-git merge --no-ff <your branch>
-git pull (updates the developer branch)
-→ deal with conflict using merge tool.
-git push origin developer
--> delete your branch
-git branch -d <your branch>
+1. [Usage](#usage)
+1. [Installing Dependencies](#installing-dependencies)
+1. [Team](#team)
+1. [Contributing](#contributing)
 
+## Usage
 
-there’s no tracking information for the current branch (ERROR):
-if the branch doesn’t exist: git branch developer origin/developer
-if the branch exists: git pull origin developer
-if neither work: delete repo and re-clone
+1. Clone down the repo
+1. [Install dependencies](#installing-dependencies)
+1. Launch server with *nodemon server/server.js*
+1. Navigate to *localhost:3000*
+1. Signup/Login and explore!
 
-### Known Issues ###
- - If you are unable to access the root directory, try changing line ~10  "app.use(express.static('./client'));" >> "app.use(express.static('../client'));". For some reason, using two dots works for some people... 
+## Installing Dependencies
+
+From within the root directory:
+
+```sh
+npm install -g bower
+bower install
+npm install
+```
+
+## Team
+
+  - __Product Owner__: Charlie McGoogleMap ([@chukkwagon](https://github.com/chukkwagon))
+  - __Scrum Master__: Tyler Lambe ([@tylambe](https://github.com/tylambe))
+  - __Development__: Jamie Styler ([@ninth-mind](https://github.com/ninth-mind))
+  - __Development__: Brian Small ([@bsmall512](https://github.com/bsmall512))
+  - __Development__: Christian Brangular ([@Branda22](https://github.com/Branda22))
+
+## Contributing
+
+- See [_CONTRIBUTING.md](_CONTRIBUTING.md) for contribution guidelines.
+
+- See [STYLEGUIDE.md](STYLEGUIDE.md) for the project's style manual.

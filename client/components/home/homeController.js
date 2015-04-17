@@ -152,7 +152,7 @@ angular.module('Treadstone.home', [])
 			method: 'GET',
 			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
 		}).then(function(data){
-			var city = data.data.results[5].formatted_address;
+			var city = data.data.results[4].formatted_address;
 			$scope.city = city;
 		})
 	}
