@@ -10,10 +10,12 @@ angular.module('Treadstone.routes', [])
       method: "GET",
       url: "/api/routes/" + $scope.city
     }).then(function(data){
-      $scope.routes = data;
+      console.log(Array.isArray(data));
+      debugger;
+      $scope.routes = data.data;
       //You have to parse the data coming from the server
       $scope.routes.map(function(item){
-        item = JSON.parse(item)
+        item.data = JSON.parse(item.data)
       })
     })
   }

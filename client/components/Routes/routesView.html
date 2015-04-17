@@ -11,8 +11,8 @@
     <ul>
       <li class="route" ng-repeat="route in routes">
 
-        <h3><a href="#/route/{{route.id}}">{{route.routeName}}</a></h3>
-        <p>{{route.routeDescription}}</p>
+        <h3><a href="#/route/{{route.id}}">{{route.data.routeName}}</a></h3>
+        <p>{{route.data.routeDescription}}</p>
       </li>
     </ul>
   </div>
