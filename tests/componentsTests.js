@@ -13,22 +13,22 @@ describe("An AngularJS test suite", function(){
 
 });
 
-describe("addRoute", function(){
-	beforeEach(module('Treadstone.addRoute'));
+describe("addRouteController", function(){
+	beforeEach(module('Treadstone.addRoute', 'Treadstone.factory'));
 
 	var $controller;
 
 	beforeEach(inject(function(_$controller_){
-		$controller = _$controller_;
-	}));
+	 	$controller = _$controller_;
+	 }));
 
-	describe("$scope.submit",function(){
-		it("should have latitude and longitude properties", function(){
-			var $scope = {};
-			var controller = $controller("addRouteController", );
-			$scope.lat = 1;
-			$scope.lon = 1;
-			expect($scope.lat).toBeDefined();
+	describe("All the methods in addRouteController",function(){
+	it("should be defined", function(){
+	      var $scope = {};
+		  var controller = $controller("addRouteController", {$scope:$scope});
+		  expect($scope.submit).toBeDefined();
+		  expect($scope.saveRoute).toBeDefined();
+		  
 		})
 	});
 });
