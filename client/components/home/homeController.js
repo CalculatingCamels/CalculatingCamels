@@ -55,4 +55,5 @@ angular.module('Treadstone.home', [])
 			$scope.city = city;
 		})
 	};
+
 })
