@@ -1,5 +1,13 @@
 <div id="map-canvas"></div>
 <div class="routeView-wrapper">
-  <h4>Directions</h4>
+  <div class="directions-header">
+    <h4>Directions</h4>
+    <button class="btn btn-success btn-xs" ng-click="hyperlapse()">Hyperlapse</button>
+    <button class="btn btn-danger btn-xs" ng-click="deleteRoute()">Delete Route</button>
+  </div>
   <div id="directionsPanel"></div> 
+</div>
+<div id="route-info2">
+  <h3>{{route.name}}</h3>
+  <p>{{route.description}}</p>
 </div>

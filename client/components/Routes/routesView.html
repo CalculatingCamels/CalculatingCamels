@@ -1,17 +1,18 @@
-<h1>ROUTES VIEW</h1>
 
-
-<div ng-show="routes.hasOwnProperty('error')">
-  <h3>We don't support your city yet!</h3>
-</div>
-
-<div ng-hide="routes.hasOwnProperty('error')">
+<div id="map-background"></div>
+<div  class="inner-wrap" ng-show="routes.length > 0">
+  <div ng-show="routes.length === 0">
+    <h3>{{msg}}</h3>
+  </div>
   <h3>Showing routes for {{ city }}</h3>
   <div class ="routes">
     <ul>
-      <li class="route" ng-repeat="route in routes">
-        <h3><a href="#/route/{{route.id}}">{{route.data.routeName}}</a></h3>
-        <p>{{route.data.routeDescription}}</p>
+      <li class="route clearfix" ng-repeat="route in routes">
+        <div class="route-info">
+          <h3><a href="#/route/{{route.id}}">{{route.data.routeName}}</a></h3>
+          <p>{{route.data.routeDescription}}</p>
+          <p>{{route.data.distance}}km</p>
+        </div>
       </li>
     </ul>
   </div>

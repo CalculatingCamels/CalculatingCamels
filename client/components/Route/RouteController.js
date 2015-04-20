@@ -1,6 +1,23 @@
 angular.module('Treadstone.route', [])
 
-.controller('routeController', function ($scope, $routeParams, $http) {
+.controller('routeController', function ($scope, $routeParams, $http, $location) {
+	$scope.route = {};
+
+
+	$scope.deleteRoute = function(){
+		if(confirm("Are you sure you want to delete this route? This will delete the route for everyone.")){			
+			$http({
+				method: "DELETE",
+				url: '/api/route/' + $routeParams.route_id,
+			}).then(function(result){
+				$location.path('/');
+			})
+		}
+	}
+
+	$scope.hyperlapse = function(){		
+		$location.path('/route/hyperlapse/' + $routeParams.route_id);
+	}
 
   function parseWaypoints(waypoints){
     var wpArray=[]
@@ -20,6 +37,8 @@ angular.module('Treadstone.route', [])
 		url: '/api/routes/'+ $routeParams.route_id,
 	}).then(function(route) {
     var routeInfo = JSON.parse(route.data.data);
+    $scope.route.name = routeInfo.routeName;
+    $scope.route.description = routeInfo.routeDescription;
 		renderMap(routeInfo.origin, parseWaypoints(routeInfo.waypoints), routeInfo.destination, routeInfo.travelMode);
 	})
 

@@ -1,6 +1,6 @@
 angular.module('Treadstone.addRoute', [])
 
-.controller('addRouteController', function ($scope, $http, geocoderFactory) {
+.controller('addRouteController', function ($scope, $http, geocoderFactory, $location) {
 
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
@@ -24,10 +24,12 @@ angular.module('Treadstone.addRoute', [])
 
 	$scope.saveRoute = function(){
 		var dir = directionsDisplay.getDirections();
-
 		
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
+		dir.request.distance = getTotalDistance(dir);
+		console.log(dir.request.distance);
+
 		if( typeof(dir.request.origin) === 'string' ){
 
 			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
@@ -36,7 +38,7 @@ angular.module('Treadstone.addRoute', [])
 					D:results[0].geometry.location.D
 				}
 				getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
-					console.log("if",dir.request);
+					console.log("if ",dir.request);
 					dir.request.cityState = cityState;
 					$scope.name = "";
 					$scope.description = "";
@@ -71,7 +73,8 @@ angular.module('Treadstone.addRoute', [])
 						return resp.data;
 					})
 		} 
-			
+		
+		$location.path('/');	
 	}
 
 	function getCity(latitude, longitude, cb){
@@ -83,6 +86,16 @@ angular.module('Treadstone.addRoute', [])
 			cb(location);
 		})
 	}
+
+	function getTotalDistance(result){
+			var total =0;
+			var myroute = result.routes[0];
+		  for (var i = 0; i < myroute.legs.length; i++) {
+		    total += myroute.legs[i].distance.value;
+		  }
+		  total = total / 1000.0;
+		  return total;
+		}
 
 	function renderMap(location){
 		var map;
@@ -122,12 +135,7 @@ angular.module('Treadstone.addRoute', [])
 		}
 
 		function computeTotalDistance(result) {
-		  var total = 0;
-		  var myroute = result.routes[0];
-		  for (var i = 0; i < myroute.legs.length; i++) {
-		    total += myroute.legs[i].distance.value;
-		  }
-		  total = total / 1000.0;
+			var total = getTotalDistance(result);
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
 	} //END RENDER MAP

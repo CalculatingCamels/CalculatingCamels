@@ -24,11 +24,16 @@ input, textarea{
   margin:3px auto;
   width:350px;
 }
+.inner-wrap{
+  width:1020px;
+  margin:0 auto;
+}
+
 /* ~~~~~~~~~~~~~~~~~
      HOME PAGE 
  ~~~~~~~~~~~~~~~~~~~*/
 
-#map-canvas{
+#map-canvas,#map-background,#home-map-canvas{
   position:absolute;
   top:0;
   width:100%;
@@ -91,15 +96,15 @@ input, textarea{
 /*~~~~~~~ addRoute ~~~~~~~~~~*/
 #directionsPanel{
   color:#333;
-  max-height: 500px;
+  max-height: 400px;
   background-color: #F4F4F4;
   overflow: scroll;
 }
 .form-wrapper{
   margin:0 auto;
   text-align: center;
-
 }
+
 
 #map-canvas.embed{
   min-height:500px;
@@ -117,9 +122,11 @@ input, textarea{
 .routeView-wrapper{
   width:300px;
   margin-right:5px !important;
+  position:relative;
+  top:-30px;
   float:right;
 }
-.routeView-wrapper h4{
+.directions-header{
   color:black;
   background-color:white;
   margin:0;
@@ -129,6 +136,7 @@ input, textarea{
   border-radius: 5px;
 
 }
+
 .routeView-wrapper #directionsPanel{
   background-color:white;
   border-radius: 5px;
@@ -142,7 +150,31 @@ input, textarea{
   display:none;
   width:0;
 }
+/*~~~~~~ ROUTES VIEW ~~~~~~~~*/
+.routes{
+  max-height: 400px;
+  overflow: scroll;
+}
+.routes ul{
+  list-style: none;
+}
+.route-img{
+  width:150px;
+  height:150px;
+}
+#route-info2{
+  background-image: url('bg.png');
+  border-radius: 5px;
+  bottom:30px;
+  float:left;
+  left:10px;
+  max-width:400px;
+  max-height: 200px;
+  overflow: scroll;
+  padding:10px;
+  position:absolute;
 
+}
 
 
 

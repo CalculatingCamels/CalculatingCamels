@@ -1,4 +1,4 @@
-angular.module('Treadstone.about', [])
- .controller('aboutController', function($scope){
+angular.module('Treadstone.about', ['Treadstone.home'])
+ .controller('aboutController',['homeController',function($scope, $location){
 
- })
+ }]);
