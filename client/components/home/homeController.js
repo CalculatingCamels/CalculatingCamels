@@ -49,7 +49,7 @@ angular.module('Treadstone.home', [])
 	function getCity(position){
 		$http({
 			method: 'GET',
-			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
+			url: '//maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
 		}).then(function(data){
 			var city = data.data.results[4].formatted_address;
 			$scope.city = city;

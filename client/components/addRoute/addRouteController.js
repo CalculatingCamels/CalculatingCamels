@@ -77,7 +77,7 @@ angular.module('Treadstone.addRoute', [])
 	function getCity(latitude, longitude, cb){
 		$http({
 			method: 'GET',
-			url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + "," + longitude
+			url: '//maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + "," + longitude
 		}).then(function(data){
 			var location = formatCity(data.data.results[1]);
 			cb(location);
