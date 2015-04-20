@@ -1,6 +1,7 @@
 angular.module('Treadstone.route', [])
 
 .controller('routeController', function ($scope, $routeParams, $http, $location) {
+	$scope.route = {};
 
 
 	$scope.deleteRoute = function(){
@@ -12,6 +13,10 @@ angular.module('Treadstone.route', [])
 				$location.path('/');
 			})
 		}
+	}
+
+	$scope.hyperlapse = function(){		
+		$location.path('/route/hyperlapse/' + $routeParams.route_id);
 	}
 
   function parseWaypoints(waypoints){
@@ -32,6 +37,8 @@ angular.module('Treadstone.route', [])
 		url: '/api/routes/'+ $routeParams.route_id,
 	}).then(function(route) {
     var routeInfo = JSON.parse(route.data.data);
+    $scope.route.name = routeInfo.routeName;
+    $scope.route.description = routeInfo.routeDescription;
 		renderMap(routeInfo.origin, parseWaypoints(routeInfo.waypoints), routeInfo.destination, routeInfo.travelMode);
 	})
 
