@@ -22,46 +22,68 @@ angular.module('Treadstone.addRoute', [])
 		$scope.shown = true;	
 	}
 
+	//SAVES ROUTE TO THE DATABASE
 	$scope.saveRoute = function(){
 		var dir = directionsDisplay.getDirections();
 		
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
 		dir.request.distance = getTotalDistance(dir);
-		console.log(dir.request.distance);
+		console.log("dir.request: ", dir.request);
 
-		if( typeof(dir.request.origin) === 'string' ){
+		//Function checks input and always converts it to a LAT & LON
+		function checkOriginInput(originRequest) {
+			if( typeof(originRequest) === 'string' ){
 
-			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
-				dir.request.origin = {
-					k:results[0].geometry.location.k,
-					D:results[0].geometry.location.D
-				}
+				geocoderFactory.createGeocoder(originRequest, function(results, status){
+					dir.request.origin = {
+						k:results[0].geometry.location.k,
+						D:results[0].geometry.location.D
+					}
+					getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
+						console.log("if ",dir.request);
+						dir.request.cityState = cityState;
+						$scope.name = "";
+						$scope.description = "";
+						$scope.location = "";
+						checkDestinationInput(dir.request.destination)
+					});
+
+				})
+			} else {
 				getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
-					console.log("if ",dir.request);
+				console.log("else",dir.request)
 					dir.request.cityState = cityState;
 					$scope.name = "";
 					$scope.description = "";
 					$scope.location = "";
-					postRoute();
+
+					//Now check the destination
+					checkDestinationInput(dir.request.destination)
 				});
 
-			})
-
-		} else {
-
-			getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
-			console.log("else",dir.request)
-				dir.request.cityState = cityState;
-				$scope.name = "";
-				$scope.description = "";
-				$scope.location = "";
-				postRoute();
-			});
-
+			}
+			
 		}
 
-		
+		//This will allow the route to be saved if the destination is not moved on the map.
+		//Checks the input and always converts it to a LAT and LON 
+		function checkDestinationInput(destinationRequest){
+			if( typeof(destinationRequest) === "string"){
+				console.log("if:", destinationRequest);
+				geocoderFactory.createGeocoder(destinationRequest, function(results, status){
+					dir.request.destination = {
+						k:results[0].geometry.location.k,
+						D:results[0].geometry.location.D
+					}
+					postRoute();
+				})
+			} else {
+				postRoute();
+			}
+		}
+
+		checkOriginInput(dir.request.origin);
 
 		function postRoute() {
 			return $http({
