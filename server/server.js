@@ -73,7 +73,6 @@ app.get('/api/routes/:picker', function(req, res){
     var formattedCity = helpers.formatCity(req.params.picker);
     client.query('SELECT * FROM cities WHERE name = $1', [formattedCity], function(err, result){
       if(result && result.rows.length > 0){
-        console.log('grabbing all routes where city_id === ', result.rows[0].id)
         client.query('SELECT * FROM routes WHERE city_id = $1', [result.rows[0].id], function(err, result){
           res.status(200).json(result.rows);
         });
@@ -93,7 +92,7 @@ app.post('/api/routes', function(req, res){
   client.query('SELECT * FROM cities WHERE name = $1', [formattedCity], function(err, result){
     if(result && result.rows.length > 0){
       //The city this user is trying to add a route for is supported
-      client.query('INSERT INTO routes (data, city_id) VALUES ($1,$2,$3) RETURNING id', [JSON.stringify(req.body), result.rows[0].id], function(err, result){
+      client.query('INSERT INTO routes (data, city_id) VALUES ($1,$2) RETURNING id', [JSON.stringify(req.body), result.rows[0].id], function(err, result){
         res.status(200).json({'success': true, 'route_id': result.rows[0].id});
       });
     } else {
