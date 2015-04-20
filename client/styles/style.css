@@ -146,7 +146,7 @@ input, textarea{
   width:300px;
   z-index: 200;
 }
-.adp-warnbox{
+.adp-warnbox, .adp-legal{
   display:none;
   width:0;
 }
