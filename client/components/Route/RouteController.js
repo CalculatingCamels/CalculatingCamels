@@ -37,7 +37,7 @@ angular.module('Treadstone.route', [])
 		url: '/api/routes/'+ $routeParams.route_id,
 	}).then(function(route) {
     var routeInfo = JSON.parse(route.data.data);
-    $scope.route.name = routeInfor.routeName;
+    $scope.route.name = routeInfo.routeName;
     $scope.route.description = routeInfo.routeDescription;
 		renderMap(routeInfo.origin, parseWaypoints(routeInfo.waypoints), routeInfo.destination, routeInfo.travelMode);
 	})
