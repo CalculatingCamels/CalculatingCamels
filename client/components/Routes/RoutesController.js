@@ -53,14 +53,13 @@ angular.module('Treadstone.routes', [])
     url: "/api/routes/" + $scope.city
   }).then(function(routes){
     if(routes.data[0].hasOwnProperty('error')){
-      $scope.routes = [];
       $scope.msg = 'There are no routes in your city!'
     } else {
-    $scope.msg = ''
-    $scope.routes = routes.data;
-      $scope.routes.map(function(route){
-        route.data = JSON.parse(route.data)
-      });
+      $scope.msg = '';
+      $scope.routes = routes.data;
+        $scope.routes.map(function(route){
+          route.data = JSON.parse(route.data)
+        });
     }
   });
 
