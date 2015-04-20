@@ -28,12 +28,6 @@ var connectDB = function(cb){
 };
 
 var syncTables = function(){
-  //create and load all tables here
-
-  var dropTables = 'DROP TABLE IF EXISTS users;' +
-  'DROP TABLE IF EXISTS cities;' +
-  'DROP TABLE IF EXISTS routes;';
-
   var cities = 'CREATE TABLE IF NOT EXISTS cities (' +
     'id SERIAL NOT NULL PRIMARY KEY,' +
     'name varchar(80) NOT NULL,' +
@@ -46,12 +40,9 @@ var syncTables = function(){
     'city_id integer NOT NULL' +
   ');';
 
-  var insertCity = "INSERT INTO cities (name, display_name) VALUES ('austin,tx', 'Austin, TX');";
-
   connectDB(function(){
-    client.query(dropTables + ' ' + routes + ' ' + cities + ' ' + insertCity, function(err, result){
-      if(err) return console.log(err);
-      console.log('dropped and recreated tables');
+    client.query(routes + ' ' + cities, function(err, result){
+      console.log('created tables');
     });
   })
 };
@@ -103,12 +94,18 @@ app.post('/api/routes', function(req, res){
     if(result && result.rows.length > 0){
       //The city this user is trying to add a route for is supported
       client.query('INSERT INTO routes (data, city_id) VALUES ($1,$2,$3) RETURNING id', [JSON.stringify(req.body), result.rows[0].id], function(err, result){
-        console.log('inserted that shit')
         res.status(200).json({'success': true, 'route_id': result.rows[0].id});
       });
     } else {
       res.status(200).json({'error': 'city not supported'});
     }
+  });
+});
+
+//DELETE A ROUTE
+app.delete('/api/routes', function(req, res){
+  client.query('DELETE FROM routes WHERE id = $1 RETURNING *', [req.params.route_id], function(err, result){
+    res.status(200).json({'success': result.rows.length > 0});
   });
 });
 
