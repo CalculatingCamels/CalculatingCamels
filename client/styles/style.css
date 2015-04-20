@@ -96,15 +96,15 @@ input, textarea{
 /*~~~~~~~ addRoute ~~~~~~~~~~*/
 #directionsPanel{
   color:#333;
-  max-height: 500px;
+  max-height: 400px;
   background-color: #F4F4F4;
   overflow: scroll;
 }
 .form-wrapper{
   margin:0 auto;
   text-align: center;
-
 }
+
 
 #map-canvas.embed{
   min-height:500px;
@@ -122,6 +122,8 @@ input, textarea{
 .routeView-wrapper{
   width:300px;
   margin-right:5px !important;
+  position:relative;
+  top:-30px;
   float:right;
 }
 .directions-header{
@@ -133,12 +135,6 @@ input, textarea{
   top:6px;
   border-radius: 5px;
 
-}
-.delete-route{
-  color:red;
-}
-.delete-route:hover{
-  color: darkred;
 }
 
 .routeView-wrapper #directionsPanel{

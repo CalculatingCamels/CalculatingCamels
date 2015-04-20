@@ -14,6 +14,10 @@ angular.module('Treadstone.route', [])
 		}
 	}
 
+	$scope.hyperlapse = function(){		
+		$location.path('/route/hyperlapse/' + $routeParams.route_id);
+	}
+
   function parseWaypoints(waypoints){
     var wpArray=[]
   	waypoints.forEach(function(WP){
