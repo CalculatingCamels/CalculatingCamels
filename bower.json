@@ -1,10 +1,7 @@
 {
-  "name": "CalculatingCamels",
+  "name": "Treadstone",
   "version": "1.0.0",
-  "homepage": "https://github.com/CalculatingCamels/CalculatingCamels",
-  "authors": [
-    "Jamie Skinner <skinner520@gmail.com>"
-  ],
+  "homepage": "https://github.com/CalculatingCamels/Treadstone",
   "description": "Route tracking and visualization for cyclists",
   "moduleType": [
     "globals"

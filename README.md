@@ -24,9 +24,7 @@ Git Workflow: https://docs.google.com/document/d/1On2krMGCtfYS8xnR6FLhZ-gO1UUJtN
 From within the root directory:
 
 ```sh
-npm install -g bower
-bower install
-npm install
+npm install (handles both front and back-end dependencies)
 ```
 
 ## Team
