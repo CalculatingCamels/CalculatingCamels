@@ -47,7 +47,7 @@ angular.module('Treadstone.route', [])
 	  var mapOptions = {
 	    zoom: 15,
 	    center: $scope.center,
-	    disableDefaultUI: false
+	    disableDefaultUI: true
 	  };
 
 	  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
