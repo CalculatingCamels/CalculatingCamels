@@ -2,6 +2,7 @@ angular.module('Treadstone.routes', [])
 .controller('routesController', function ($scope, $routeParams, $http){
 	
 	$scope.city = $routeParams.city;
+  console.log("routeParams", $routeParams.city);
   $scope.routes = [];
   $scope.msg = 'Loading routes...';
 
@@ -43,7 +44,6 @@ angular.module('Treadstone.routes', [])
       url: '//maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
     }).then(function(data){
       var city = data.data.results[4].formatted_address;
-      $scope.city = city;
     })
   };
 
