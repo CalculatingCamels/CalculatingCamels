@@ -1,6 +1,18 @@
 angular.module('Treadstone.route', [])
 
-.controller('routeController', function ($scope, $routeParams, $http) {
+.controller('routeController', function ($scope, $routeParams, $http, $location) {
+
+
+	$scope.deleteRoute = function(){
+		if(confirm("Are you sure you want to delete this route? This will delete the route for everyone.")){			
+			$http({
+				method: "DELETE",
+				url: '/api/route/' + $routeParams.route_id,
+			}).then(function(result){
+				$location.path('/');
+			})
+		}
+	}
 
   function parseWaypoints(waypoints){
     var wpArray=[]
