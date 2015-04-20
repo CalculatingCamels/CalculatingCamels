@@ -22,26 +22,32 @@ angular.module('Treadstone.addRoute', [])
 		$scope.shown = true;	
 	}
 
+<<<<<<< HEAD
+	//SAVES ROUTE TO THE DATABASE
+=======
 	// This function saves the route after the user has dragged the waypoints into their desired position
 	// The function is called by clicking saveroute in addRouteView.html
+>>>>>>> 15465f851432ff8e4931d4ee8fbd9a4c53b05379
 	$scope.saveRoute = function(){
 		var dir = directionsDisplay.getDirections();
 		
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
 		dir.request.distance = getTotalDistance(dir);
+<<<<<<< HEAD
 		console.log("dir.request: ", dir.request);
 
 		//Function checks input and always converts it to a LAT & LON
 		function checkOriginInput(originRequest) {
 			if( typeof(originRequest) === 'string' ){
+
 				geocoderFactory.createGeocoder(originRequest, function(results, status){
 					dir.request.origin = {
 						k:results[0].geometry.location.k,
 						D:results[0].geometry.location.D
 					}
 					getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
-						console.log("if: ",dir.request);
+						console.log("if ",dir.request);
 						dir.request.cityState = cityState;
 						$scope.name = "";
 						$scope.description = "";
@@ -51,8 +57,20 @@ angular.module('Treadstone.addRoute', [])
 
 				})
 			} else {
+=======
+		console.log(dir.request.distance);
+
+		// formatting the location for the database
+		if( typeof(dir.request.origin) === 'string' ){
+
+			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
+				dir.request.origin = {
+					k:results[0].geometry.location.k,
+					D:results[0].geometry.location.D
+				}
+>>>>>>> 15465f851432ff8e4931d4ee8fbd9a4c53b05379
 				getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
-				console.log("else: ",dir.request)
+				console.log("else",dir.request)
 					dir.request.cityState = cityState;
 					$scope.name = "";
 					$scope.description = "";
@@ -61,6 +79,8 @@ angular.module('Treadstone.addRoute', [])
 					//Now check the destination
 					checkDestinationInput(dir.request.destination)
 				});
+
+<<<<<<< HEAD
 			}
 			
 		}
@@ -69,23 +89,36 @@ angular.module('Treadstone.addRoute', [])
 		//Checks the input and always converts it to a LAT and LON 
 		function checkDestinationInput(destinationRequest){
 			if( typeof(destinationRequest) === "string"){
+				console.log("if:", destinationRequest);
 				geocoderFactory.createGeocoder(destinationRequest, function(results, status){
 					dir.request.destination = {
 						k:results[0].geometry.location.k,
 						D:results[0].geometry.location.D
 					}
-					console.log("if: ", dir.request.destination);
 					postRoute();
 				})
 			} else {
-				console.log("else: ", dir.request.destination);
+=======
+		} else {
+			
+			getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
+			console.log("else",dir.request)
+				dir.request.cityState = cityState;
+				$scope.name = "";
+				$scope.description = "";
+				$scope.location = "";
+>>>>>>> 15465f851432ff8e4931d4ee8fbd9a4c53b05379
 				postRoute();
 			}
 		}
 
+<<<<<<< HEAD
 		checkOriginInput(dir.request.origin);
 
+=======
+		
 		// http post request to our server to save the route, called by saveRoute
+>>>>>>> 15465f851432ff8e4931d4ee8fbd9a4c53b05379
 		function postRoute() {
 			return $http({
 						method: 'POST',
