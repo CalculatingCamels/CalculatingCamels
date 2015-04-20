@@ -3,6 +3,7 @@ angular.module("Treadstone" , ['Treadstone.home',
                                'Treadstone.route',
                                'Treadstone.addRoute',
                                'Treadstone.factory',
+                               'Treadstone.hyperlapse',
                                'Treadstone.about',
                                'ui.bootstrap',
                                'ngRoute'
@@ -25,6 +26,10 @@ angular.module("Treadstone" , ['Treadstone.home',
     .when('/route/:route_id', {
       templateUrl: 'components/Route/routeView.html',
       controller: 'routeController'
+    })
+    .when('/route/hyperlapse/:route_id', {
+      templateUrl: 'components/hyperlapse/hyperlapseView.html',
+      controller: 'hyperlapseController'
     })
     .when('/about',{
       templateUrl: 'components/about/aboutView.html',
