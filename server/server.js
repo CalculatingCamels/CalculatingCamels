@@ -8,8 +8,13 @@ var app = express();
 app.use(bodyParser.json());
 app.use(express.static('./client'));
 
-//CMD:
-//'/Applications/pgAdmin3.app/Contents/SharedSupport/psql' --host 'ec2-50-17-207-54.compute-1.amazonaws.com' --port 5432 --username 'bjoadkdzfmmdeo' 'da61ffapcqmlrq' && exit || sleep 5 && exit
+//Command line postgres connection (copy entire line with quotes):
+/*
+
+'/Applications/pgAdmin3.app/Contents/SharedSupport/psql' --host 'ec2-50-17-207-54.compute-1.amazonaws.com' --port 5432 --username 'bjoadkdzfmmdeo' 'da61ffapcqmlrq' && exit || sleep 5 && exit
+
+*/
+
 var client = new pg.Client({
     user: "bjoadkdzfmmdeo",
     password: "1aGrTjAJmzRC3VduAbJN3nLUwo",
@@ -110,4 +115,4 @@ app.delete('/api/route/:route_id', function(req, res){
 
 app.listen(process.env.PORT || 3000);
 
-console.log('server listening on ' + process.env.PORT || 3000)
+console.log('server listening on ' + (process.env.PORT || 3000));
