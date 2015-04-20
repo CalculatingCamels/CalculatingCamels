@@ -102,7 +102,7 @@ app.post('/api/routes', function(req, res){
 });
 
 //DELETE A ROUTE
-app.delete('/api/routes', function(req, res){
+app.delete('/api/route/:route_id', function(req, res){
   client.query('DELETE FROM routes WHERE id = $1 RETURNING *', [req.params.route_id], function(err, result){
     res.status(200).json({'success': result.rows.length > 0});
   });

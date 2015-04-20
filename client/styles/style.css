@@ -124,7 +124,7 @@ input, textarea{
   margin-right:5px !important;
   float:right;
 }
-.routeView-wrapper h4{
+.directions-header{
   color:black;
   background-color:white;
   margin:0;
@@ -134,6 +134,13 @@ input, textarea{
   border-radius: 5px;
 
 }
+.delete-route{
+  color:red;
+}
+.delete-route:hover{
+  color: darkred;
+}
+
 .routeView-wrapper #directionsPanel{
   background-color:white;
   border-radius: 5px;
