@@ -9,10 +9,12 @@
   <h3>Showing routes for {{ city }}</h3>
   <div class ="routes">
     <ul>
-      <li class="route" ng-repeat="route in routes">
-        <img class="route-img" src="../styles/bike-wheel.jpg">
-        <h3><a href="#/route/{{route.id}}">{{route.data.routeName}}</a></h3>
-        <p>{{route.data.routeDescription}}</p>
+      <li class="route clearfix" ng-repeat="route in routes">
+        <div class="route-info">
+          <h3><a href="#/route/{{route.id}}">{{route.data.routeName}}</a></h3>
+          <p>{{route.data.routeDescription}}</p>
+          <p>{{route.data.distance}}km</p>
+        </div>
       </li>
     </ul>
   </div>

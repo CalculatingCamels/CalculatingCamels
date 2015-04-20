@@ -148,16 +148,17 @@ input, textarea{
   width:0;
 }
 /*~~~~~~ ROUTES VIEW ~~~~~~~~*/
+.routes{
+  max-height: 100%;
+  overflow: scroll;
+}
+.routes ul{
+  list-style: none;
+}
 .route-img{
-  float:left;
   width:150px;
   height:150px;
 }
-.route-img:after{
-  clear:both;
-  content:"";
-}
-
 
 
 

@@ -24,10 +24,13 @@ angular.module('Treadstone.addRoute', [])
 
 	$scope.saveRoute = function(){
 		var dir = directionsDisplay.getDirections();
-
 		
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
+		dir.request.distance = getTotalDistance(dir);
+		console.log(dir.request.distance);
+
+		console.log(document.getElementById('total').value)
 		if( typeof(dir.request.origin) === 'string' ){
 
 			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
@@ -84,6 +87,16 @@ angular.module('Treadstone.addRoute', [])
 		})
 	}
 
+	function getTotalDistance(result){
+			var total =0;
+			var myroute = result.routes[0];
+		  for (var i = 0; i < myroute.legs.length; i++) {
+		    total += myroute.legs[i].distance.value;
+		  }
+		  total = total / 1000.0;
+		  return total;
+		}
+
 	function renderMap(location){
 		var map;
 
@@ -122,12 +135,7 @@ angular.module('Treadstone.addRoute', [])
 		}
 
 		function computeTotalDistance(result) {
-		  var total = 0;
-		  var myroute = result.routes[0];
-		  for (var i = 0; i < myroute.legs.length; i++) {
-		    total += myroute.legs[i].distance.value;
-		  }
-		  total = total / 1000.0;
+			var total = getTotalDistance(result);
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
 	} //END RENDER MAP
