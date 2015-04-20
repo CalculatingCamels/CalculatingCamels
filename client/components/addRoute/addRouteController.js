@@ -1,6 +1,6 @@
 angular.module('Treadstone.addRoute', [])
 
-.controller('addRouteController', function ($scope, $http, geocoderFactory) {
+.controller('addRouteController', function ($scope, $http, geocoderFactory, $location) {
 
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
@@ -30,7 +30,6 @@ angular.module('Treadstone.addRoute', [])
 		dir.request.distance = getTotalDistance(dir);
 		console.log(dir.request.distance);
 
-		console.log(document.getElementById('total').value)
 		if( typeof(dir.request.origin) === 'string' ){
 
 			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
@@ -74,7 +73,8 @@ angular.module('Treadstone.addRoute', [])
 						return resp.data;
 					})
 		} 
-			
+		
+		$location.path('/');	
 	}
 
 	function getCity(latitude, longitude, cb){
