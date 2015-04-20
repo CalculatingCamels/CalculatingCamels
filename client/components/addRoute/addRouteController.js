@@ -22,6 +22,8 @@ angular.module('Treadstone.addRoute', [])
 		$scope.shown = true;	
 	}
 
+	// This function saves the route after the user has dragged the waypoints into their desired position
+	// The function is called by clicking saveroute in addRouteView.html
 	$scope.saveRoute = function(){
 		var dir = directionsDisplay.getDirections();
 		
@@ -30,6 +32,7 @@ angular.module('Treadstone.addRoute', [])
 		dir.request.distance = getTotalDistance(dir);
 		console.log(dir.request.distance);
 
+		// formatting the location for the database
 		if( typeof(dir.request.origin) === 'string' ){
 
 			geocoderFactory.createGeocoder(dir.request.origin, function(results, status){
@@ -49,7 +52,7 @@ angular.module('Treadstone.addRoute', [])
 			})
 
 		} else {
-
+			
 			getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
 			console.log("else",dir.request)
 				dir.request.cityState = cityState;
@@ -62,7 +65,7 @@ angular.module('Treadstone.addRoute', [])
 		}
 
 		
-
+		// http post request to our server to save the route, called by saveRoute
 		function postRoute() {
 			return $http({
 						method: 'POST',
@@ -119,7 +122,6 @@ angular.module('Treadstone.addRoute', [])
 
 	  calcRoute();
 		
-
 		function calcRoute() {
 		  var request = {
 		    origin: location,
