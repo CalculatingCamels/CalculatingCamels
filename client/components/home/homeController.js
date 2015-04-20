@@ -41,7 +41,7 @@ angular.module('Treadstone.home', [])
 		styles : featureOpts,
 		disableDefaultUI : true
 	  }
-	  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	  var map = new google.maps.Map(document.getElementById('home-map-canvas'), mapOptions);
 	};//END RENDER MAP
 
 
