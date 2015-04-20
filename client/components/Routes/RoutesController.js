@@ -34,7 +34,7 @@ angular.module('Treadstone.routes', [])
     disableDefaultUI : true,
     draggable : false
     }
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var map = new google.maps.Map(document.getElementById('map-background'), mapOptions);
   };//END RENDER MAP
 
   function getCity(position){
