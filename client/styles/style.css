@@ -24,6 +24,10 @@ input, textarea{
   margin:3px auto;
   width:350px;
 }
+.inner-wrap{
+  width:1020px;
+  margin:0 auto;
+}
 
 /* ~~~~~~~~~~~~~~~~~
      HOME PAGE 

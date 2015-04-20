@@ -1,11 +1,11 @@
-<h1>ROUTES VIEW</h1>
 
+<div id="map-canvas"></div>
 <div class = "">
 <div ng-show="routes.hasOwnProperty('error')">
   <h3>We don't support your city yet!</h3>
 </div>
 
-<div ng-hide="routes.hasOwnProperty('error')">
+<div  class="inner-wrap" ng-hide="routes.hasOwnProperty('error')">
   <h3>Showing routes for {{ city }}</h3>
   <div class ="routes">
     <ul>
