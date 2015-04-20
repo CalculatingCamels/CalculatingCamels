@@ -33,7 +33,7 @@ input, textarea{
      HOME PAGE 
  ~~~~~~~~~~~~~~~~~~~*/
 
-#map-canvas{
+#map-canvas,#map-background{
   position:absolute;
   top:0;
   width:100%;
