@@ -5,7 +5,6 @@ angular.module("Treadstone" , ['Treadstone.home',
                                'Treadstone.factory',
                                'Treadstone.hyperlapse',
                                'Treadstone.about',
-                               'ui.bootstrap',
                                'ngRoute'
                               ])
 
