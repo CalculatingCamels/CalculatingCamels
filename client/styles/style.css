@@ -24,6 +24,7 @@ input, textarea{
   margin:3px auto;
   width:350px;
 }
+
 /* ~~~~~~~~~~~~~~~~~
      HOME PAGE 
  ~~~~~~~~~~~~~~~~~~~*/
@@ -141,6 +142,16 @@ input, textarea{
 .adp-warnbox{
   display:none;
   width:0;
+}
+/*~~~~~~ ROUTES VIEW ~~~~~~~~*/
+.route-img{
+  float:left;
+  width:150px;
+  height:150px;
+}
+.route-img:after{
+  clear:both;
+  content:"";
 }
 
 
