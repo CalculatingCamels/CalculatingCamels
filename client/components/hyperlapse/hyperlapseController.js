@@ -1,10 +1,16 @@
 angular.module('Treadstone.hyperlapse', [])
 .controller('hyperlapseController', function ($scope, $routeParams, $http){
+  $scope.route_id = $routeParams.route_id;
+
   $http({
     method: 'GET',
-    url: '/api/routes/'+ $routeParams.route_id,
+    url: '/api/routes/' + $routeParams.route_id,
   }).then(function(route) {
     var routeInfo = JSON.parse(route.data.data);
+
+    $scope.routeDescription = routeInfo.routeDescription;
+    $scope.routeName = routeInfo.routeName;
+    $scope.city = routeInfo.cityState;
 
     console.log('got route info', routeInfo)
 
@@ -67,6 +73,6 @@ angular.module('Treadstone.hyperlapse', [])
         console.log(status);
       }
     });
-    
+
   });
 });
