@@ -1,6 +1,32 @@
 angular.module('Treadstone.hyperlapse', [])
 .controller('hyperlapseController', function ($scope, $routeParams, $http){
   $scope.route_id = $routeParams.route_id;
+  $scope.loading = false;
+
+  var hyperlapse = new Hyperlapse(document.getElementById('pano'), {
+    lookat: new google.maps.LatLng(37.81409525128964,-122.4775045005249),
+    zoom: 1,
+    use_lookat: false,
+    elevation: 10
+  });
+
+  hyperlapse.onError = function(e) {
+    console.log(e);
+  };
+
+  hyperlapse.onRouteComplete = function(e) {
+    hyperlapse.load();
+  };
+
+  hyperlapse.onLoadComplete = function(e) {
+    $scope.loading = false;
+    console.log('LOAD COMPLETE')
+    hyperlapse.play();
+  };
+
+  hyperlapse.onPlayComplete = function(){
+    console.log('hyperlapse completed');
+  }
 
   $http({
     method: 'GET',
@@ -11,49 +37,6 @@ angular.module('Treadstone.hyperlapse', [])
     $scope.routeDescription = routeInfo.routeDescription;
     $scope.routeName = routeInfo.routeName;
     $scope.city = routeInfo.cityState;
-
-    console.log('got route info', routeInfo)
-
-    var hyperlapse = new Hyperlapse(document.getElementById('pano'), {
-      lookat: new google.maps.LatLng(37.81409525128964,-122.4775045005249),
-      zoom: 1,
-      use_lookat: false,
-      elevation: 10
-    });
-
-    hyperlapse.onError = function(e) {
-      console.log(e);
-    };
-
-    hyperlapse.onRouteComplete = function(e) {
-      console.log('onRouteComplete');
-      hyperlapse.load();
-    };
-
-    hyperlapse.onLoadComplete = function(e) {
-      console.log('onLoadComplete');
-      hyperlapse.play();
-    };
-
-    hyperlapse.onPlayComplete = function(){
-      console.log('loop completed')
-    }
-
-    hyperlapse.onLoadProgress = function(e){
-      console.log(e);
-    };
-
-    hyperlapse.onRouteProgress = function(e){
-      console.log(e);
-    };
-
-    hyperlapse.onFrame = function(e){
-      console.log('onframe', e)
-    };
-
-    hyperlapse.onPause = function(e){
-      console.log('paused');
-    }
 
     // Google Maps API stuff here...
     var directions_service = new google.maps.DirectionsService();

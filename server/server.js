@@ -33,21 +33,15 @@ var connectDB = function(cb){
 };
 
 var syncTables = function(){
-  var cities = 'CREATE TABLE IF NOT EXISTS cities (' +
-    'id SERIAL NOT NULL PRIMARY KEY,' +
-    'name varchar(80) NOT NULL,' +
-    'display_name varchar(80) NOT NULL' +
-  ');';
-  
   var routes = 'CREATE TABLE IF NOT EXISTS routes (' +
     'id SERIAL NOT NULL PRIMARY KEY,' +
     'data text NOT NULL,' +
-    'city_id integer NOT NULL' +
+    'city text NOT NULL' +
   ');';
 
   connectDB(function(){
-    client.query(routes + ' ' + cities, function(err, result){
-      console.log('created tables');
+    client.query(routes, function(err, result){
+      console.log('created table');
     });
   })
 };
@@ -72,37 +66,19 @@ app.get('/api/routes/:picker', function(req, res){
       }
     });
   } else {
-    //1) Check if we support the city.
-    //2) If we support the city, grab the 'city_id' and then grab all routes with that city_id.
-    //TODO: Build in pagination (start/stop indexes)
-    var formattedCity = helpers.formatCity(req.params.picker);
-    client.query('SELECT * FROM cities WHERE name = $1', [formattedCity], function(err, result){
-      if(result && result.rows.length > 0){
-        client.query('SELECT * FROM routes WHERE city_id = $1', [result.rows[0].id], function(err, result){
-          res.status(200).json(result.rows);
-        });
-      } else {
-        res.status(200).json({'error': 'city not supported'});
-      }
+    console.log('FORMATTED CITY: ', helpers.formatCity(req.params.picker))
+    client.query('SELECT * FROM routes WHERE city = $1', [helpers.formatCity(req.params.picker)], function(err, result){
+      if(!result || err) return res.status(200).json([{'error': 'routes not found'}])
+      res.status(200).json(result.rows);
     });
   }
 });
 
 //ADD A NEW ROUTE
 app.post('/api/routes', function(req, res){
-  //1) Check if the city the route is in is supported.
-  //2) If the city is valid, grab the city_id.
-  //3) Stringify input data and insert the route into the DB. Return the route's ID after a successful insertion.
-  var formattedCity = helpers.formatCity(req.body.cityState);
-  client.query('SELECT * FROM cities WHERE name = $1', [formattedCity], function(err, result){
-    if(result && result.rows.length > 0){
-      //The city this user is trying to add a route for is supported
-      client.query('INSERT INTO routes (data, city_id) VALUES ($1,$2) RETURNING id', [JSON.stringify(req.body), result.rows[0].id], function(err, result){
-        res.status(200).json({'success': true, 'route_id': result.rows[0].id});
-      });
-    } else {
-      res.status(200).json({'error': 'city not supported'});
-    }
+  var search = helpers.formatCity(req.body.cityState);
+  client.query('INSERT INTO routes (data, city) VALUES ($1,$2) RETURNING id', [JSON.stringify(req.body), search], function(err, result){
+    res.status(200).json({'success': true, 'route_id': result.rows[0].id});
   });
 });
 
