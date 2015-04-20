@@ -1,11 +1,9 @@
 
 <div id="map-background"></div>
-<div class = "">
-<div ng-show="routes.length === 0">
-  <h3>{{msg}}</h3>
-</div>
-
 <div  class="inner-wrap" ng-show="routes.length > 0">
+  <div ng-show="routes.length === 0">
+    <h3>{{msg}}</h3>
+  </div>
   <h3>Showing routes for {{ city }}</h3>
   <div class ="routes">
     <ul>

@@ -2,6 +2,7 @@ angular.module('Treadstone.routes', [])
 .controller('routesController', function ($scope, $routeParams, $http){
 	
 	$scope.city = $routeParams.city;
+  console.log("routeParams", $routeParams.city);
   $scope.routes = [];
   $scope.msg = 'Loading routes...';
 
@@ -43,7 +44,6 @@ angular.module('Treadstone.routes', [])
       url: '//maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
     }).then(function(data){
       var city = data.data.results[4].formatted_address;
-      $scope.city = city;
     })
   };
 
@@ -53,14 +53,13 @@ angular.module('Treadstone.routes', [])
     url: "/api/routes/" + $scope.city
   }).then(function(routes){
     if(routes.data[0].hasOwnProperty('error')){
-      $scope.routes = [];
       $scope.msg = 'There are no routes in your city!'
     } else {
-    $scope.msg = ''
-    $scope.routes = routes.data;
-      $scope.routes.map(function(route){
-        route.data = JSON.parse(route.data)
-      });
+      $scope.msg = '';
+      $scope.routes = routes.data;
+        $scope.routes.map(function(route){
+          route.data = JSON.parse(route.data)
+        });
     }
   });
 

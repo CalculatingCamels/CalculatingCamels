@@ -66,7 +66,6 @@ app.get('/api/routes/:picker', function(req, res){
       }
     });
   } else {
-    console.log('FORMATTED CITY: ', helpers.formatCity(req.params.picker))
     client.query('SELECT * FROM routes WHERE city = $1', [helpers.formatCity(req.params.picker)], function(err, result){
       if(!result || err) return res.status(200).json([{'error': 'routes not found'}])
       res.status(200).json(result.rows);

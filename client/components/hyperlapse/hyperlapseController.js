@@ -1,7 +1,6 @@
 angular.module('Treadstone.hyperlapse', [])
 .controller('hyperlapseController', function ($scope, $routeParams, $http){
   $scope.route_id = $routeParams.route_id;
-  $scope.loading = false;
 
   var hyperlapse = new Hyperlapse(document.getElementById('pano'), {
     lookat: new google.maps.LatLng(37.81409525128964,-122.4775045005249),
@@ -19,8 +18,6 @@ angular.module('Treadstone.hyperlapse', [])
   };
 
   hyperlapse.onLoadComplete = function(e) {
-    $scope.loading = false;
-    console.log('LOAD COMPLETE')
     hyperlapse.play();
   };
 
