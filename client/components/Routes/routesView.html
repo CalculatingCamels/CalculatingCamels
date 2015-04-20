@@ -2,7 +2,7 @@
 
 
 <div ng-show="routes.hasOwnProperty('error')">
-  <h3>Sorry. Your city is not supported yet.</h3>
+  <h3>We don't support your city yet!</h3>
 </div>
 
 <div ng-hide="routes.hasOwnProperty('error')">
@@ -10,7 +10,6 @@
   <div class ="routes">
     <ul>
       <li class="route" ng-repeat="route in routes">
-
         <h3><a href="#/route/{{route.id}}">{{route.data.routeName}}</a></h3>
         <p>{{route.data.routeDescription}}</p>
       </li>

@@ -22,7 +22,7 @@ angular.module('Treadstone.home', [])
 		$scope.renderMap(position);
 	  })
 	} else {
-		// We should have a default image if the map won't loa
+		// We should have a default image if the map won't load
 	  console.log('Geolocation is not supported on this browser');
 	}
 
