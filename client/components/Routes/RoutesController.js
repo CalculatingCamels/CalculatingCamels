@@ -3,27 +3,15 @@ angular.module('Treadstone.routes', [])
 	
 	$scope.city = $routeParams.city;
   $scope.routes = [];
-  $scope.supported;
 
-  $scope.init = function(){
-    $http({
-      method: "GET",
-      url: "/api/routes/" + $scope.city
-    }).then(function(data){
-      console.log(Array.isArray(data));
-      $scope.routes = data.data;
-      //You have to parse the data coming from the server
-      $scope.routes.map(function(item){
-        item.data = JSON.parse(item.data)
-      })
+  $http({
+    method: "GET",
+    url: "/api/routes/" + $scope.city
+  }).then(function(routes){
+    $scope.routes = routes.data;
+    $scope.routes.map(function(route){
+      route.data = JSON.parse(route.data)
     })
-  }
-  //Calls init to get routes. 
-  $scope.init();
-
-  if($scope.routes.hasOwnProperty("error")){
-
-  }
-  
+  });
 
 });

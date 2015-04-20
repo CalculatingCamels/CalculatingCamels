@@ -1,54 +1,45 @@
 <!DOCTYPE html>
-<html ng-app = "Treadstone">
-<head>
-  <title>Treadstone</title>
-  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-css/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="styles/style.css">
-  <link rel="icon" type="image/png" href="styles/treadstone-logo.png">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
-</head>
-<body>
-<div class = 'wrapper'> 
-  <div class = "header clearfix">   
-    <div class = "brand clearfix">
-    <!-- <a href='#/'> -->
-      <img class = "logo" src = "styles/treadstone-logo-small.png">
-      <h1 class="masthead-brand"><a href="#/">TreadStone</a></h1>
-    <!-- </a> -->
+<html ng-app='Treadstone'>
+  <head>
+    <title>Treadstone</title>
+    <link rel='stylesheet' type='text/css' href='bower_components/bootstrap-css/css/bootstrap.min.css'>
+    <link rel='stylesheet' type='text/css' href='styles/style.css'>
+    <link rel='icon' type='image/png' href='styles/treadstone-logo.png'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div class='wrapper'> 
+      <div class='header clearfix'>   
+        <div class='brand clearfix'>
+          <img class='logo' src='styles/treadstone-logo-small.png'>
+          <h1 class='masthead-brand'><a href='#/'>TreadStone</a></h1>
+        </div>
+        <hr class='hr-400'>
+        <div class='navigation'>
+          <ul>
+            <li><a href='#/'>Find Routes</a></li>
+            <li><a href='#/route/add'>Add a Route</a></li>
+            <li><a href='#/about'>About</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class='site-wrapper'>
+        <div ng-view></div> 
+      </div>
     </div>
-    <hr class="hr-400">
-    <div class='navigation'>
-      <ul>
-        <li><a href='#/login'>Login</a></li>
-        <li><a href='#/route/add'>Add a Route</a></li>
-        <li><a href='#/about'>About</a></li>
-        <li><a href='#/signup'>Sign Up</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="site-wrapper">
-    <div ng-view></div> 
-  </div>
-</div>
 
-<!-- scripts --> 
+    <script src='bower_components/angular/angular.min.js'></script>
+    <script src='bower_components/angular-route/angular-route.min.js'></script>
+    <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
+    <script src='vendor/angular-ui-bootstrap.js'></script>
 
-<script src="bower_components/angular/angular.min.js"></script>
-<script src="bower_components/angular-route/angular-route.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src='components/app.js'></script>
+    <script src='components/home/homeController.js'></script>
+    <script src='components/about/aboutController.js'></script>
+    <script src='components/Routes/RoutesController.js'></script>
+    <script src='components/Route/RouteController.js'></script>
+    <script src='components/addRoute/addRouteController.js'></script>
+    <script src='components/factories/factories.js'></script>
 
-<!-- unable to get correct angular ui files when using bower install..... --> 
-<script src = "vendor/angular-ui-bootstrap.js"></script>
-
-<script src = "components/app.js"></script>
-<script src = "components/home/homeController.js"></script>
-<script src="components/about/aboutController.js"></script>
-<script src="components/Routes/RoutesController.js"></script>
-<script src="components/Route/RouteController.js"></script>
-<script src="components/auth/signupController.js"></script>
-<script src="components/auth/loginController.js"></script>
-<script src="components/addRoute/addRouteController.js"></script>
-<script src="components/factories/factories.js"></script>
-
-</body>
+  </body>
 </html>

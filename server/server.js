@@ -2,7 +2,6 @@ var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
 var helpers = require('../server/helpers.js');
-var session = require('express-session')
 
 var app = express();
 
@@ -20,16 +19,10 @@ var client = new pg.Client({
     ssl: true
 });
 
-app.use(session({
-  secret: 'calculatingcamels',
-  resave: false,
-  saveUninitialized: true
-}));
-
 var connectDB = function(cb){
   client.connect(function(err, client){
     if(err) return console.log(err);
-    console.log('connected to postgres remote server successfully');
+    console.log('connected to postgres db successfully');
     cb();
   });
 };
@@ -37,15 +30,9 @@ var connectDB = function(cb){
 var syncTables = function(){
   //create and load all tables here
 
-  var dropTables = 'DROP TABLE IF EXISTS users;' + 
-  'DROP TABLE IF EXISTS cities;' + 
+  var dropTables = 'DROP TABLE IF EXISTS users;' +
+  'DROP TABLE IF EXISTS cities;' +
   'DROP TABLE IF EXISTS routes;';
-
-  var users = 'CREATE TABLE IF NOT EXISTS users (' +
-    'id SERIAL NOT NULL PRIMARY KEY,' +
-    'username varchar(40) NOT NULL,' +
-    'password varchar(255) NOT NULL' +
-  ');';
 
   var cities = 'CREATE TABLE IF NOT EXISTS cities (' +
     'id SERIAL NOT NULL PRIMARY KEY,' +
@@ -55,17 +42,14 @@ var syncTables = function(){
   
   var routes = 'CREATE TABLE IF NOT EXISTS routes (' +
     'id SERIAL NOT NULL PRIMARY KEY,' +
-    'user_id varchar(80) NOT NULL,' +
     'data text NOT NULL,' +
     'city_id integer NOT NULL' +
   ');';
 
   var insertCity = "INSERT INTO cities (name, display_name) VALUES ('austin,tx', 'Austin, TX');";
 
-  //var insertRoute = "INSERT INTO routes (user_id, data, city_id) VALUES (1, '{some json route data here}', 1);";
-
   connectDB(function(){
-    client.query(dropTables + ' ' + users + ' ' + routes + ' ' + cities + ' ' + insertCity, function(err, result){
+    client.query(dropTables + ' ' + routes + ' ' + cities + ' ' + insertCity, function(err, result){
       if(err) return console.log(err);
       console.log('dropped and recreated tables');
     });
@@ -73,14 +57,6 @@ var syncTables = function(){
 };
 
 syncTables();
-
-//This won't work yet due to Angular using hashes. In other words, the server is never called when a view changes.
-//TODO: Figure out how to restrict access to these pages in Angular.
-// app.get(['/route/add', '/profile'], function(req, res, next){
-//   if(req.session.loggedIn) return next();
-//   res.redirect('/login');
-//   res.end();
-// });
 
 //GET ROUTE(S)
 //EXAMPLES:
@@ -122,13 +98,11 @@ app.post('/api/routes', function(req, res){
   //1) Check if the city the route is in is supported.
   //2) If the city is valid, grab the city_id.
   //3) Stringify input data and insert the route into the DB. Return the route's ID after a successful insertion.
-  if(!req.session || !req.session.loggedIn) return res.status(401).json({'error': 'unauthorized call'});
-  console.log(req.body);
   var formattedCity = helpers.formatCity(req.body.cityState);
   client.query('SELECT * FROM cities WHERE name = $1', [formattedCity], function(err, result){
     if(result && result.rows.length > 0){
       //The city this user is trying to add a route for is supported
-      client.query('INSERT INTO routes (user_id, data, city_id) VALUES ($1,$2,$3) RETURNING id', [req.session.user_id, JSON.stringify(req.body), result.rows[0].id], function(err, result){
+      client.query('INSERT INTO routes (data, city_id) VALUES ($1,$2,$3) RETURNING id', [JSON.stringify(req.body), result.rows[0].id], function(err, result){
         console.log('inserted that shit')
         res.status(200).json({'success': true, 'route_id': result.rows[0].id});
       });
@@ -137,52 +111,6 @@ app.post('/api/routes', function(req, res){
     }
   });
 });
-
-//SIGNIN
-app.post('/api/signin', function(req, res){
-  //If the user is already logged in:
-  if(req.session.loggedIn){
-    res.json({'valid': true})
-  } else {
-    //Pull user's information from the database.
-    client.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [req.body.username], function(err, result){
-      if(result && result.rows.length > 0 && result.rows[0].username === req.body.username && helpers.checkPassword(req.body.password, result.rows[0].password)){
-        req.session.loggedIn = true;
-        req.session.username = req.body.username;
-        req.session.user_id = result.rows[0].id;
-        res.status(200).json({'valid': true});
-      } else {
-        res.status(200).json({'valid': false});
-      }
-    });
-  }
-});
-
-//SIGNUP
-app.post('/api/signup', function(req, res){
-  //Query the database for the desired username.
-  client.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [req.body.username], function(err, result){
-    //If there are no rows with this username:
-    if(!result || result.rows.length === 0){
-      client.query('INSERT INTO users (username, password) VALUES ($1,$2) RETURNING id', [req.body.username, helpers.hashPassword(req.body.password)], function(err, result){
-        req.session.loggedIn = true;
-        req.session.username = req.body.username;
-        req.session.user_id = result.rows[0].id;
-        res.status(200).json({'valid': true});
-      });
-    } else {
-      res.status(200).json({'valid': false})
-    }
-  });
-});
-
-//SIGNOUT
-app.get('/signout', function(req,res){
-  req.session.destroy();
-  res.redirect('/');
-  res.end();
-});
-
 
 app.listen(3000, 'localhost');
 

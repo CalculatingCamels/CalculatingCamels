@@ -1,31 +1,31 @@
 <div class='wrap-add'>
-	<div class='form-wrapper'>
-	  <h3>Add a Route</h3>
+  <div class='form-wrapper'>
+    <h3>Add a Route</h3>
 
-		<form id='add-route'>
-			<input type='text' placeholder='Enter your location (city and state, or address)' ng-model="location" size="50"/><br>
-			<button type='submit' ng-click="submit()">Search</button>
-		</form>
+    <form id='add-route'>
+      <input type='text' placeholder='Enter your location (city and state, or address)' ng-model='location' size='50'/><br>
+      <button type='submit' ng-click='submit()'>Search</button>
+    </form>
 
-		<form id="name-route" ng-show="shown">
-			Route Name: <br>
-			<input type="text" name="route-name" placeholder="Name your Route" size="50" ng-model="name"/><br/>
-			Route Description <br>
-			<textarea form="name-route" ng-model="description" placeholder="Describe your route." cols="50" rows="4"></textarea><br>	
-			<button type="submit" ng-click="saveRoute()"> Save Route</button>
-		</form>
-	</div><!-- END FORM-WRAPPER -->
-	
-	<div class="mapWrap">
-		<div class="row">
-			<div class="col-md-8">
-			  <div id='map-canvas' class = "embed" style="z-index: 1;"></div>
-			</div>
-			<div class="col-md-4">
-				<div id="directionsPanel" ng-show="shown">
-					<p>Total Distance: <span id="total"></span></p>
-				</div>
-			</div>
-		</div><!-- END ROW -->
-	</div><!-- END mapWrap -->
+    <form id='name-route' ng-show='shown'>
+      Route Name: <br>
+      <input type='text' name='route-name' placeholder='Name your Route' size='50' ng-model='name'/><br/>
+      Route Description <br>
+      <textarea form='name-route' ng-model='description' placeholder='Describe your route.' cols='50' rows='4'></textarea><br>  
+      <button type='submit' ng-click='saveRoute()'> Save Route</button>
+    </form>
+  </div>
+  
+  <div class='mapWrap'>
+    <div class='row'>
+      <div class='col-md-8'>
+        <div id='map-canvas' class = 'embed' style='z-index: 1;'></div>
+      </div>
+      <div class='col-md-4'>
+        <div id='directionsPanel' ng-show='shown'>
+          <p>Total Distance: <span id='total'></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
