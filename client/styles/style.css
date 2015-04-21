@@ -146,7 +146,6 @@ input, textarea{
  *  gets rid of annoying boxes 
  *  on directions panel 
  */
-
 .adp-warnbox, .adp-legal{
   display:none;
   width:0;
@@ -189,6 +188,7 @@ input, textarea{
   max-height:200px;
   width:600px;
 }
-
-
-
+#hyperlapse-load {
+  height: 50px;
+  width: 50px; 
+}

@@ -1,20 +1,20 @@
 
-<div id="map-background"></div>
-<div  class="inner-wrap" ng-show="routes.length > 0">
-  <div ng-show="routes.length === 0">
-    <h3>{{msg}}</h3>
-  </div>
-  <h3>Showing routes for {{ city }}</h3>
-  <div class ="routes">
-    <ul>
-      <li class="route clearfix" ng-repeat="route in routes">
-        <div class="route-info">
-          <h3><a href="#/route/{{route.id}}">{{route.data.routeName}}</a></h3>
-          <p>{{route.data.routeDescription}}</p>
-          <p>{{route.data.distance}}km</p>
-        </div>
-      </li>
-    </ul>
+<div id='map-background'></div>
+<div class='inner-wrap'>
+  <h3 ng-show='msg'>{{ msg }}</h3>
+  <div ng-hide='msg'>
+    <h3>Showing routes for {{ city }}</h3>
+    <div class='routes'>
+      <ul>
+        <li class='route clearfix' ng-repeat='route in routes'>
+          <div class='route-info'>
+            <h3><a href='#/route/{{route.id}}'>{{route.data.routeName}}</a></h3>
+            <p>{{route.data.routeDescription}}</p>
+            <p>{{route.data.distance}}km</p>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 

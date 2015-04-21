@@ -20,7 +20,6 @@ angular.module('Treadstone.route', [])
 		$location.path('/route/hyperlapse/' + $routeParams.route_id);
 	}
 
-
 ///ELEVATION CODE
 	$scope.getElevation= function(){
 		$scope.elevationClicked = !($scope.elevationClicked);
@@ -71,6 +70,10 @@ angular.module('Treadstone.route', [])
 
 	//END ELEVATION CODE
 
+
+  //Helper function to parse, waypoints from the database. 
+  // The maps api wants each lat an lon inside an object literal with a location property.
+
   function parseWaypoints(waypoints){
     var wpArray=[]
   	waypoints.forEach(function(WP){
@@ -84,6 +87,7 @@ angular.module('Treadstone.route', [])
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
 
+	//Fetches map data from the server for the URL route_id parameter.
 	$http({
 		method: 'GET',
 		url: '/api/routes/'+ $routeParams.route_id,
@@ -103,7 +107,7 @@ angular.module('Treadstone.route', [])
 	  var mapOptions = {
 	    zoom: 15,
 	    center: $scope.center,
-	    disableDefaultUI: false
+	    disableDefaultUI: true
 	  };
 
 	  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -142,5 +146,4 @@ angular.module('Treadstone.route', [])
 		}
 		
 	}
-
 })
