@@ -1,6 +1,7 @@
 angular.module('Treadstone.routes', [])
 .controller('routesController', function ($scope, $routeParams, $http){
 	
+  //Sets scope.city to url params city
 	$scope.city = $routeParams.city;
   $scope.routes = [];
   $scope.msg = 'Loading routes...';
@@ -22,7 +23,7 @@ angular.module('Treadstone.routes', [])
     var map = new google.maps.Map(document.getElementById('map-background'), mapOptions);
   };
 
-
+  //Fetches an array with routes for selected city.
   $http({
     method: "GET",
     url: "/api/routes/" + $scope.city

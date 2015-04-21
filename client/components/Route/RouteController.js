@@ -19,6 +19,8 @@ angular.module('Treadstone.route', [])
 		$location.path('/route/hyperlapse/' + $routeParams.route_id);
 	}
 
+  //Helper function to parse, waypoints from the database. 
+  // The maps api wants each lat an lon inside an object literal with a location property.
   function parseWaypoints(waypoints){
     var wpArray=[]
   	waypoints.forEach(function(WP){
@@ -32,6 +34,7 @@ angular.module('Treadstone.route', [])
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
 
+	//Fetches map data from the server for the URL route_id parameter.
 	$http({
 		method: 'GET',
 		url: '/api/routes/'+ $routeParams.route_id,
@@ -86,5 +89,4 @@ angular.module('Treadstone.route', [])
 		}
 		
 	}
-
 })
