@@ -30,7 +30,11 @@
 
     <script src='bower_components/angular/angular.min.js'></script>
     <script src='bower_components/angular-route/angular-route.min.js'></script>
-    <script src='//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false'></script>
+    <script src="//google.com/jsapi"></script>
+    <script src='//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false' type='text/javascript'></script>
+    <script>
+      google.load('visualization', '1.0', {'packages':['columnchart']});
+    </script>
 
     <script src="vendor/three.min.js"></script>
     <script src="vendor/GSVPano.js"></script>

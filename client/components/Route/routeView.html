@@ -3,11 +3,16 @@
   <div class="directions-header">
     <h4>Directions</h4>
     <button class="btn btn-success btn-xs" ng-click="hyperlapse()">Hyperlapse</button>
-    <button class="btn btn-danger btn-xs" ng-click="deleteRoute()">Delete Route</button>
+    <button class="btn btn-success btn-xs" ng-click="getElevation()">Elevation Profile</button>
   </div>
   <div id="directionsPanel"></div> 
 </div>
-<div id="route-info2">
+<div id="route-info-specific" ng-hide="elevationClicked">
   <h3>{{route.name}}</h3>
   <p>{{route.description}}</p>
+  <button class="btn btn-danger btn-xs" ng-click="deleteRoute()">Delete Route</button>
+</div>
+<div class="elevation" ng-show="elevationClicked">
+  <h4>Elevation:</h4>
+  <div id="elevation_chart"></div>
 </div>
