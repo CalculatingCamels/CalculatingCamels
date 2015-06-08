@@ -6,27 +6,31 @@ angular.module('Treadstone.addRoute', [])
 	var directionsService = new google.maps.DirectionsService();
 
 	$scope.shown = false;
-	
-    // for documentation on googlemaps geocoding API and the geocoderFactory, 
+
+    // for documentation on googlemaps geocoding API and the geocoderFactory,
     // look in factories.js file.
 	$scope.submit = function(){
 		//Geocoder takes an address and turns it into lat and lon.
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
+			console.log(results)
 			if(status == google.maps.GeocoderStatus.OK){
-				$scope.lat = results[0].geometry.location.k
-				$scope.lon = results[0].geometry.location.D
+				$scope.lat = results[0].geometry.location.A
+				$scope.lon = results[0].geometry.location.F
 				$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
 				renderMap($scope.location);
+				console.log('here')
+			} else {
+				console.log("City not found");
 			}
 		});
-		$scope.shown = true;	
+		$scope.shown = true;
 	}
 
 	// This function saves the route after the user has dragged the waypoints into their desired position
 	// The function is called by clicking saveroute in addRouteView.html
 	$scope.saveRoute = function(){
 		var dir = directionsDisplay.getDirections();
-		
+
 		dir.request.routeName = "" + $scope.name;
 		dir.request.routeDescription = "" + $scope.description;
 		dir.request.distance = getTotalDistance(dir);
@@ -62,11 +66,11 @@ angular.module('Treadstone.addRoute', [])
 					checkDestinationInput(dir.request.destination)
 				});
 			}
-			
+
 		}
 
 		//This will allow the route to be saved if the destination is not moved on the map.
-		//Checks the input and always converts it to a LAT and LON 
+		//Checks the input and always converts it to a LAT and LON
 		function checkDestinationInput(destinationRequest){
 			if( typeof(destinationRequest) === "string"){
 				geocoderFactory.createGeocoder(destinationRequest, function(results, status){
@@ -95,9 +99,9 @@ angular.module('Treadstone.addRoute', [])
 					}).then(function(resp) {
 						return resp.data;
 					})
-		} 
-		
-		$location.path('/');	
+		}
+
+		$location.path('/');
 	}
 
 	function getCity(latitude, longitude, cb){
@@ -141,7 +145,7 @@ angular.module('Treadstone.addRoute', [])
 	  });
 
 	  calcRoute();
-		
+
 		function calcRoute() {
 		  var request = {
 		    origin: location,
@@ -161,7 +165,7 @@ angular.module('Treadstone.addRoute', [])
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
 	} //END RENDER MAP
-	
+
 	function formatCity(cityString) {
 		var cityState = cityString.formatted_address.split(',').slice(-3);
 		var formatCity = cityState[0];
