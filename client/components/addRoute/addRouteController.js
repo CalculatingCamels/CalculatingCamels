@@ -14,11 +14,11 @@ angular.module('Treadstone.addRoute', [])
 		geocoderFactory.createGeocoder($scope.location, function(results, status){
 			console.log(results)
 			if(status == google.maps.GeocoderStatus.OK){
+				//Google changes what letters they use to represent Lat and Long every once in a while.
 				$scope.lat = results[0].geometry.location.A
 				$scope.lon = results[0].geometry.location.F
 				$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
 				renderMap($scope.location);
-				console.log('here')
 			} else {
 				console.log("City not found");
 			}
@@ -41,8 +41,9 @@ angular.module('Treadstone.addRoute', [])
 			if( typeof(originRequest) === 'string' ){
 				geocoderFactory.createGeocoder(originRequest, function(results, status){
 					dir.request.origin = {
-						k:results[0].geometry.location.k,
-						D:results[0].geometry.location.D
+						//had to change the GOOGLE LAT LONG TARGETS HERE TOO
+						k:results[0].geometry.location.A,
+						D:results[0].geometry.location.F
 					}
 					getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
 						console.log("if: ",dir.request);
@@ -75,8 +76,9 @@ angular.module('Treadstone.addRoute', [])
 			if( typeof(destinationRequest) === "string"){
 				geocoderFactory.createGeocoder(destinationRequest, function(results, status){
 					dir.request.destination = {
-						k:results[0].geometry.location.k,
-						D:results[0].geometry.location.D
+						//Changes GOOGLE LAT AND LONG HERE TOO
+						k:results[0].geometry.location.A,
+						D:results[0].geometry.location.F
 					}
 					console.log("if: ", dir.request.destination);
 					postRoute();
