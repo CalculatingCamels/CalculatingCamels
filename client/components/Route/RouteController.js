@@ -6,7 +6,7 @@ angular.module('Treadstone.route', [])
 	$scope.elevationCount = 0;
 
 	$scope.deleteRoute = function(){
-		if(confirm("Are you sure you want to delete this route? This will delete the route for everyone.")){			
+		if(confirm("Are you sure you want to delete this route? This will delete the route for everyone.")){
 			$http({
 				method: "DELETE",
 				url: '/api/route/' + $routeParams.route_id,
@@ -16,7 +16,7 @@ angular.module('Treadstone.route', [])
 		}
 	}
 
-	$scope.hyperlapse = function(){		
+	$scope.hyperlapse = function(){
 		$location.path('/route/hyperlapse/' + $routeParams.route_id);
 	}
 
@@ -31,16 +31,16 @@ angular.module('Treadstone.route', [])
 			var elev = new google.maps.ElevationService();
 
 			//creates the path
-			path.push(new google.maps.LatLng(req.origin.k,req.origin.D))
+			path.push(new google.maps.LatLng(req.origin.A,req.origin.F))
 	 		req.waypoints.forEach(function(wp){
-	 			path.push(new google.maps.LatLng(wp.location.k , wp.location.D))
+	 			path.push(new google.maps.LatLng(wp.location.A , wp.location.F))
 	 		});
-	 		path.push(new google.maps.LatLng(req.destination.k, req.destination.D));
+	 		path.push(new google.maps.LatLng(req.destination.A, req.destination.F));
 
 	    var pathRequest = {
 		    'path': path,
 		    'samples': 256
-	    }   
+	    }
 
 	    elev.getElevationAlongPath(pathRequest, plotElevation);
 
@@ -71,14 +71,14 @@ angular.module('Treadstone.route', [])
 	//END ELEVATION CODE
 
 
-  //Helper function to parse, waypoints from the database. 
+  //Helper function to parse, waypoints from the database.
   // The maps api wants each lat an lon inside an object literal with a location property.
 
   function parseWaypoints(waypoints){
     var wpArray=[]
   	waypoints.forEach(function(WP){
   		wpArray.push({
-  			location: "" + WP.location.k + " " + WP.location.D
+  			location: "" + WP.location.A + " " + WP.location.F
   		})
   	})
     return wpArray;
@@ -92,11 +92,10 @@ angular.module('Treadstone.route', [])
 		method: 'GET',
 		url: '/api/routes/'+ $routeParams.route_id,
 	}).then(function(route) {
-
     var routeInfo = JSON.parse(route.data.data);
-    console.log(routeInfo)
-    //path is the entire route object returned from server. 
-    $scope.route.path= routeInfo
+    console.log("ROUTE:",routeInfo)
+    //path is the entire route object returned from server.
+    $scope.route.path = routeInfo
     $scope.route.name = routeInfo.routeName;
     $scope.route.description = routeInfo.routeDescription;
 		renderMap(routeInfo.origin, parseWaypoints(routeInfo.waypoints), routeInfo.destination, routeInfo.travelMode);
@@ -106,7 +105,7 @@ angular.module('Treadstone.route', [])
 	function renderMap(origin, waypoints, destination, travelMode){
 	  var mapOptions = {
 	    zoom: 15,
-	    center: $scope.center,
+	    center: new google.maps.LatLng(origin.A, origin.F),
 	    disableDefaultUI: true
 	  };
 
@@ -122,12 +121,12 @@ angular.module('Treadstone.route', [])
 
 		function calcRoute() {
 		  var request = {
-		    origin: "" + origin.k + " " + origin.D,
-		    destination: "" + destination.k + " " + destination.D,
+		    origin: "" + origin.A + " " + origin.F,
+		    destination: "" + destination.A + " " + destination.F,
 		    waypoints: waypoints,
 		    travelMode: travelMode
 		  };
-		  
+
 		  directionsService.route(request, function(response, status) {
 		    if (status == google.maps.DirectionsStatus.OK) {
 		      directionsDisplay.setDirections(response);
@@ -144,6 +143,6 @@ angular.module('Treadstone.route', [])
 		  total = total / 1000.0;
 		  document.getElementById('total').innerHTML = total + ' km';
 		}
-		
+
 	}
 })

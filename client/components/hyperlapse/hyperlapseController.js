@@ -1,7 +1,7 @@
 angular.module('Treadstone.hyperlapse', [])
 .controller('hyperlapseController', function ($scope, $routeParams, $http){
   $scope.route_id = $routeParams.route_id;
-  
+
   var hyperlapse = new Hyperlapse(document.getElementById('pano'), {
     lookat: new google.maps.LatLng(37.81409525128964,-122.4775045005249),
     zoom: 1,
@@ -40,8 +40,8 @@ angular.module('Treadstone.hyperlapse', [])
 
     var route = {
       request:{
-        origin: new google.maps.LatLng(routeInfo.origin.k, routeInfo.origin.D),
-        destination: new google.maps.LatLng(routeInfo.destination.k, routeInfo.destination.D),
+        origin: new google.maps.LatLng(routeInfo.origin.A, routeInfo.origin.F),
+        destination: new google.maps.LatLng(routeInfo.destination.A, routeInfo.destination.F),
         travelMode: google.maps.DirectionsTravelMode.BICYCLING
       }
     };

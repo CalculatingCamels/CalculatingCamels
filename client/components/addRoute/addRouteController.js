@@ -5,25 +5,64 @@ angular.module('Treadstone.addRoute', [])
 	var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true});
 	var directionsService = new google.maps.DirectionsService();
 
+	//SUPPORTED CITIES
+	$scope.supportedCities = ['Select your city!', 'Austin, TX', 'Chicago, IL', 'San Francisco, CA'];
+	$scope.selectedCity = 'Select your city!';
+
+	var latLongs = {
+		"Austin, TX": {
+										lat: 30.2654777,
+										lon: -97.7488095
+									},
+		"Chicago, IL": {
+										lat: 41.8337329,
+										lon: -87.7321555
+									},
+		"San Francisco, CA": {
+										lat: 37.7577,
+										lon: -122.4376
+									}
+
+	} // END latLongs
+
+
+	//sendData is the method for the ng-submit directive in the html form
+
+
 	$scope.shown = false;
 
     // for documentation on googlemaps geocoding API and the geocoderFactory,
     // look in factories.js file.
 	$scope.submit = function(){
-		//Geocoder takes an address and turns it into lat and lon.
-		geocoderFactory.createGeocoder($scope.location, function(results, status){
-			console.log(results)
-			if(status == google.maps.GeocoderStatus.OK){
-				//Google changes what letters they use to represent Lat and Long every once in a while.
-				$scope.lat = results[0].geometry.location.A
-				$scope.lon = results[0].geometry.location.F
-				$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
-				renderMap($scope.location);
-			} else {
-				console.log("City not found");
-			}
-		});
-		$scope.shown = true;
+		if(latLongs.hasOwnProperty($scope.selectedCity)){
+			var location = latLongs[$scope.selectedCity];
+			$scope.lat = location.lat
+			$scope.lon = location.lon
+			$scope.center = new google.maps.LatLng(location.lat, location.lon);
+
+			geocoderFactory.createGeocoder($scope.selectedCity, function(results, status){
+
+			})
+			renderMap(location);
+			$scope.shown = true;
+		}
+
+
+
+		// //Geocoder takes an address and turns it into lat and lon.
+		// geocoderFactory.createGeocoder($scope.location, function(results, status){
+		// 	console.log(results)
+		// 	if(status == google.maps.GeocoderStatus.OK){
+		// 		//Google changes what letters they use to represent Lat and Long every once in a while.
+		// 		$scope.lat = results[0].geometry.location.A
+		// 		$scope.lon = results[0].geometry.location.F
+		// 		$scope.center = new google.maps.LatLng($scope.lat, $scope.lon);
+		// 		renderMap($scope.location);
+		// 	} else {
+		// 		console.log("City not found");
+		// 	}
+		// });
+		// $scope.shown = true;
 	}
 
 	// This function saves the route after the user has dragged the waypoints into their desired position
@@ -42,10 +81,10 @@ angular.module('Treadstone.addRoute', [])
 				geocoderFactory.createGeocoder(originRequest, function(results, status){
 					dir.request.origin = {
 						//had to change the GOOGLE LAT LONG TARGETS HERE TOO
-						k:results[0].geometry.location.A,
-						D:results[0].geometry.location.F
+						A:results[0].geometry.location.A,
+						F:results[0].geometry.location.F
 					}
-					getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
+					getCity(dir.request.origin.A, dir.request.origin.F, function(cityState){
 						console.log("if: ",dir.request);
 						dir.request.cityState = cityState;
 						$scope.name = "";
@@ -56,8 +95,8 @@ angular.module('Treadstone.addRoute', [])
 
 				})
 			} else {
-				getCity(dir.request.origin.k, dir.request.origin.D, function(cityState){
-				console.log("else: ",dir.request)
+				getCity(dir.request.origin.A, dir.request.origin.F, function(cityState){
+				console.log("Check Origin Input else: ",dir.request)
 					dir.request.cityState = cityState;
 					$scope.name = "";
 					$scope.description = "";
@@ -107,10 +146,12 @@ angular.module('Treadstone.addRoute', [])
 	}
 
 	function getCity(latitude, longitude, cb){
+		console.log("get city info",latitude,longitude,cb)
 		$http({
 			method: 'GET',
 			url: '//maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + "," + longitude
 		}).then(function(data){
+			console.log("DATA HERE", data)
 			var location = formatCity(data.data.results[1]);
 			cb(location);
 		})
@@ -150,8 +191,8 @@ angular.module('Treadstone.addRoute', [])
 
 		function calcRoute() {
 		  var request = {
-		    origin: location,
-		    destination: location,
+		    origin: $scope.center,
+		    destination: $scope.center,
 		    waypoints:[],
 		    travelMode: google.maps.TravelMode.BICYCLING
 		  };

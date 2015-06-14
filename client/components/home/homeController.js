@@ -14,7 +14,7 @@ angular.module('Treadstone.home', [])
 	//Gets LAT & LON coordinates
 	//"navigator.geolocation" is a read only property that returns a geolocation object.
 	// getCurrentPosition is a method on the geolocation object that takes a callback
-	// function with one argument (position) and returns the instance of the geolocation object, named position.   
+	// function with one argument (position) and returns the instance of the geolocation object, named position.
 	if(navigator.geolocation) {
 
 	  navigator.geolocation.getCurrentPosition(function(position){
@@ -24,9 +24,9 @@ angular.module('Treadstone.home', [])
 	  });
 	}
 
-	// the position instance has "coords" object on it with latitude and longitude properties. 
+	// the position instance has "coords" object on it with latitude and longitude properties.
 	// getCity queries googlemaps api with the lat/lon coordinates. googlemaps api returns a response
-	// with a data array. results[5] from the array returns the city.   
+	// with a data array. results[5] from the array returns the city.
 
 	$scope.renderMap = function(position){
 	  var featureOpts = [{"featureType":"all","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}];
@@ -39,13 +39,19 @@ angular.module('Treadstone.home', [])
 	  }
 	  var map = new google.maps.Map(document.getElementById('home-map-canvas'), mapOptions);
 	};
-	
+
 	function getCity(position){
+		console.log("POSITION:", position)
 		$http({
 			method: 'GET',
 			url: '//maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + "," + position.coords.longitude
 		}).then(function(data){
-			var city = data.data.results[5].address_components[0].long_name + ', ' + data.data.results[5].address_components[2].short_name;
+			console.log("GET CITY DATA", data)
+			//I have to reformat the city to make sure we get the right information
+			// var city = data.data.results[5].address_components[0].long_name + ', ' + data.data.results[5].address_components[2].short_name;
+
+			var city = data.data.results[2].formatted_address;
+			console.log("CITY", city)
 			if($scope.supportedCities.indexOf(city) > -1){
 				//We support their city! Set the select box to reflect this:
 				$scope.selectedCity = city;
