@@ -30,7 +30,7 @@ input, textarea{
 }
 
 /* ~~~~~~~~~~~~~~~~~
-     HOME PAGE 
+     HOME PAGE
  ~~~~~~~~~~~~~~~~~~~*/
 
 #map-canvas,#map-background,#home-map-canvas{
@@ -43,7 +43,7 @@ input, textarea{
 /* ~~~~~ HEADER AND NAV STYLES ~~~~ */
 .header{
   border-radius: 3px;
-  background-image: url('bg.png'); 
+  background-image: url('bg.png');
   color:white;
   margin: 30px auto;
   padding:10px 20px;
@@ -82,6 +82,16 @@ input, textarea{
 .inner-cover{
   text-align: center;
   color:white;
+}
+@media (max-width:555px){
+  .form-control{
+    width:90% !important;
+    margin:0 auto;
+  }
+}
+.form-control{
+  width:500px;
+  margin: 0 auto;
 }
 /*~~~~~~~ auth ~~~~~~~~~*/
 .auth{
@@ -143,8 +153,8 @@ input, textarea{
   z-index: 200;
 }
 /*
- *  gets rid of annoying boxes 
- *  on directions panel 
+ *  gets rid of annoying boxes
+ *  on directions panel
  */
 .adp-warnbox, .adp-legal{
   display:none;
@@ -182,7 +192,7 @@ input, textarea{
   bottom:30px;
   float:left;
   left:10px;
-  
+
 }
 #elevation_chart{
   max-height:200px;
@@ -190,5 +200,5 @@ input, textarea{
 }
 #hyperlapse-load {
   height: 50px;
-  width: 50px; 
+  width: 50px;
 }
